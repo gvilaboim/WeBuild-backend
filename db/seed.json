@@ -1,0 +1,148 @@
+[
+  {
+    "type": "navbar",
+    "name": "navbar",
+    "brand": {
+      "text": "Your Brand",
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "w": 4,
+        "h": 2
+      }
+    },
+    "navLinks": [
+      {
+        "text": "Home",
+        "layout": {
+          "x": 4,
+          "y": 0,
+          "w": 4,
+          "h": 2
+        }
+      },
+      {
+        "text": "About",
+        "layout": {
+          "x": 8,
+          "y": 0,
+          "w": 4,
+          "h": 2
+        }
+      },
+      {
+        "text": "Jobs",
+        "layout": {
+          "x": 12,
+          "y": 0,
+          "w": 4,
+          "h": 2
+        }
+      },
+      {
+        "text": "Contacts",
+        "layout": {
+          "x": 16,
+          "y": 0,
+          "w": 4,
+          "h": 2
+        }
+      },
+      {
+        "text": "Products",
+        "layout": {
+          "x": 20,
+          "y": 0,
+          "w": 4,
+          "h": 2
+        }
+      }
+    ],
+    "bgColor": {
+      "r": 150,
+      "g": 150,
+      "b": 150,
+      "a": 1
+    }
+  },
+  {
+    "type": "body",
+    "name": "landing-block",
+    "layout": {
+      "x": 0,
+      "y": 0,
+      "w": 50,
+      "h": 100
+    },
+    "bgColor": {
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 1
+    }
+  },
+  {
+    "type": "body",
+    "name": "main-content",
+    "layout": {
+      "x": 0,
+      "y": 0,
+      "w": "50%",
+      "h": "100%"
+    },
+    "bgColor": {
+      "r": 240,
+      "g": 240,
+      "b": 240,
+      "a": 1
+    }
+  },
+  {
+    "type": "body",
+    "name": "testimonials",
+    "layout": {
+      "x": 0,
+      "y": 0,
+      "w": "50%",
+      "h": "100%"
+    },
+    "bgColor": {
+      "r": 210,
+      "g": 210,
+      "b": 210,
+      "a": 1
+    }
+  },
+  {
+    "type": "body",
+    "name": "pricing",
+    "layout": {
+      "x": 0,
+      "y": 0,
+      "w": "50%",
+      "h": "100%"
+    },
+    "bgColor": {
+      "r": 200,
+      "g": 200,
+      "b": 200,
+      "a": 1
+    }
+  },
+  {
+    "type": "footer",
+    "name": "footer",
+    "layout": {
+      "x": 0,
+      "y": 0,
+      "w": "50%",
+      "h": "100%"
+    },
+    "bgColor": {
+      "r": 150,
+      "g": 150,
+      "b": 150,
+      "a": 1
+    }
+  }
+]
