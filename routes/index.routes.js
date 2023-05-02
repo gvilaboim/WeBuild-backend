@@ -12,7 +12,6 @@ router.get('/', isAuthenticated, (req, res, next) => {
 
 router.get('/canvas-store', isAuthenticated, async (req, res, next) => {
   const foundComponents = await Component.find()
-  console.log('/canvas-store')
   res.json(foundComponents)
 })
 
@@ -21,7 +20,6 @@ router.post('/websites/create', isAuthenticated, async (req, res, next) => {
   //criar um Website quando o website ainda n tiver um Id
   const { siteData } = req.body;
   const createWebSite = await Website.create(siteData)
-  console.log(createWebSite)
   res.status(200).json(createWebSite)
 
 })
@@ -35,8 +33,6 @@ router.get('/websites/get-all', isAuthenticated, async (req, res, next) => {
 router.get('/websites/:id', isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   const foundWebsite = await Website.findById(id);
-  console.log(foundWebsite);
-
   res.status(200).json(foundWebsite);
 })
 
@@ -45,8 +41,6 @@ router.put('/websites/', isAuthenticated, async (req, res, next) => {
 
   const { siteData } = req.body;
   const id = siteData.id
-  console.log(siteData)
-
   let content = {
     navbar: siteData.navbarComponents,
     body: siteData.bodyComponents,
