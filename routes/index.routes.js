@@ -12,6 +12,7 @@ router.get('/', isAuthenticated, (req, res, next) => {
 
 router.get('/canvas-store', isAuthenticated, async (req, res, next) => {
   const foundComponents = await Component.find()
+  console.log('/canvas-store')
   res.json(foundComponents)
 })
 
@@ -25,7 +26,7 @@ router.post('/websites/create', isAuthenticated, async (req, res, next) => {
 
 })
 
-router.get('/websites', isAuthenticated, async (req, res, next) => {
+router.get('/websites/get-all', isAuthenticated, async (req, res, next) => {
   const foundWebsites = await Website.find()
   res.status(200).json(foundWebsites)
 })
