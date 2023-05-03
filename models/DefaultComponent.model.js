@@ -1,8 +1,9 @@
+// models/Component.js
 
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-const componentSchema = new Schema(
+const defaultComponentSchema = new Schema(
   {
     type: {
       type: String,
@@ -32,6 +33,6 @@ const componentSchema = new Schema(
   }
 );
 
-const Component = model("Component", componentSchema);
+const DefaultComponent = model("DefaultComponent", defaultComponentSchema);
 
-module.exports = Component;
+module.exports = DefaultComponent;

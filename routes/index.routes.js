@@ -1,6 +1,8 @@
 const express = require('express')
 const { isAuthenticated } = require('../middleware/jwt.middleware')
 const Component = require('../models/Component.model')
+const DefaultComponent = require('../models/DefaultComponent.model')
+
 const Website = require('../models/Website.model')
 const Section = require('../models/Section.model')
 const { default: mongoose } = require('mongoose')
@@ -12,7 +14,7 @@ router.get('/', isAuthenticated, (req, res, next) => {
 })
 
 router.get('/canvas-store', isAuthenticated, async (req, res, next) => {
-  const foundComponents = await Component.find()
+  const foundComponents = await DefaultComponent.find()
   res.json(foundComponents)
 })
 
@@ -82,17 +84,22 @@ router.put('/websites/', isAuthenticated, async (req, res, next) => {
   const id = siteData.id
   let content = {
     navbar: siteData.navbarComponents,
-    body: siteData.bodyComponents,
+    sections: siteData.contentSections,
     footer: siteData.footerComponents,
   }
+  content.sections.map( (section) => {console.log(section)})
 
-  const UpdatedWebsite = Website.findByIdAndUpdate(id, content, { new: true })
-    .then((updatedUser) => {
-      console.log(updatedUser)
+
+  
+
+
+ Website.findByIdAndUpdate(id, content, { new: true })
+    .then((updatedWebsite) => {
+      res.status(200).json(updatedWebsite)
     })
     .catch((error) => {
       console.log(error)
-    })
+    }) 
 })
 
 module.exports = router
