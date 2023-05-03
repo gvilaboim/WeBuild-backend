@@ -35,6 +35,7 @@ router.post('/websites/create', isAuthenticated, async (req, res, next) => {
         renderOrder: i,
         subsections: [
           {
+            name: `Subsection ${1}`,
             components: [],
           },
         ],

@@ -1,7 +1,20 @@
-// models/Section.js
+// models/Subsection.js
 
-const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+const mongoose = require('mongoose')
+const { Schema, model } = mongoose
+
+const subsectionSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  components: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Component',
+    },
+  ],
+})
 
 const sectionSchema = new Schema(
   {
@@ -10,11 +23,7 @@ const sectionSchema = new Schema(
       required: true,
     },
     renderOrder: Number,
-    subsections: [
-      {
-        components: [{ type: Schema.Types.ObjectId, ref: "Component" }],
-      },
-    ],
+    subsections: [subsectionSchema],
     numberOfColumns: {
       type: Number,
       required: true,
@@ -24,8 +33,8 @@ const sectionSchema = new Schema(
   {
     timestamps: true,
   }
-);
+)
 
-const Section = model("Section", sectionSchema);
+const Section = model('Section', sectionSchema)
 
-module.exports = Section;
+module.exports = Section
