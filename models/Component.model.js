@@ -1,4 +1,7 @@
-const { Schema, model } = require('mongoose')
+// models/Component.js
+
+const mongoose = require("mongoose");
+const { Schema, model } = mongoose;
 
 const componentSchema = new Schema(
   {
@@ -9,6 +12,10 @@ const componentSchema = new Schema(
       trim: true,
     },
     name: {
+      type: String,
+      required: true,
+    },
+    category: {
       type: String,
       required: true,
     },
@@ -24,8 +31,8 @@ const componentSchema = new Schema(
   {
     timestamps: true,
   }
-)
+);
 
-const Component = model('Component', componentSchema)
+const Component = model("Component", componentSchema);
 
-module.exports = Component
+module.exports = Component;
