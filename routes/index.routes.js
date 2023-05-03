@@ -78,28 +78,32 @@ router.get('/websites/:id', isAuthenticated, async (req, res, next) => {
 })
 
 router.put('/websites/', isAuthenticated, async (req, res, next) => {
-  //criar put | Edit do website através do website ID
+  const {
+    siteData: { id, draggedComponent, sectionIndex, subsectionIndex },
+  } = req.body
 
-  const { siteData } = req.body
-  const id = siteData.id
-  let content = {
-    navbar: siteData.navbarComponents,
-    sections: siteData.contentSections,
-    footer: siteData.footerComponents,
+  try {
+    const updatedWebsite = await Website.findByIdAndUpdate(
+      id,
+      {
+        $push: {
+          [`sections.${sectionIndex}.subsections.${subsectionIndex}.components`]:
+            {
+              name: draggedComponent.name,
+              type: draggedComponent.type,
+              layout: draggedComponent.layout,
+              bgColor: draggedComponent.bgColor,
+            },
+        },
+      },
+      { new: true }
+    )
+
+    res.status(200).json(updatedWebsite)
+  } catch (error) {
+    console.log(error)
+    res.status(500).send('Internal server error')
   }
-  content.sections.map( (section) => {console.log(section)})
-
-
-  
-
-
- Website.findByIdAndUpdate(id, content, { new: true })
-    .then((updatedWebsite) => {
-      res.status(200).json(updatedWebsite)
-    })
-    .catch((error) => {
-      console.log(error)
-    }) 
 })
 
 module.exports = router
