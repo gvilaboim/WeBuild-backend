@@ -49,7 +49,6 @@ router.post('/websites/create', isAuthenticated, async (req, res, next) => {
     newWebsite.sections = sections
 
     await newWebsite.save()
-    console.log(newWebsite)
     res.status(201).json(newWebsite)
   } catch (error) {
     console.error(error)
@@ -79,13 +78,51 @@ router.get('/websites/:id', isAuthenticated, async (req, res, next) => {
 
 router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
   const {
-    siteData: { draggedComponent, sectionIndex, subsectionIndex },
+    siteData: {
+      draggedComponent,
+      sectionIndex,
+      subsectionIndex,
+      subsectionsIncrease,
+    },
   } = req.body
 
   const { id } = req.params
-  console.log(id)
+
+  console.log(
+    draggedComponent,
+    sectionIndex,
+    subsectionIndex,
+    subsectionsIncrease
+  )
   try {
-    if (draggedComponent.type === 'navbar') {
+    // Handles Subsections Increase or Decrease (later)
+    if (subsectionsIncrease && !draggedComponent) {
+      //find the website to update
+      const website = await Website.findById(id)
+
+      // Find the Section object within the sections array
+      const section = website.sections[sectionIndex]
+      // Check how many Subsection objects are currently in the subsections array
+      const numSubsections = section.subsections.length
+      console.log(numSubsections)
+
+      // Add a new Subsection object to the subsections array
+      for (let i = 0; i < subsectionsIncrease; i++) {
+        const newSubsection = {
+          name: `Subsection ${numSubsections + i + 1}`,
+          renderOrder: numSubsections + i,
+          components: [],
+        }
+        section.subsections.push(newSubsection)
+      }
+
+      // Save the updated Website document to the database
+      const updatedWebsite = await website.save()
+      res.status(200).json(updatedWebsite)
+    }
+
+    //Handles Dropped items updates
+    if (draggedComponent && draggedComponent.type === 'navbar') {
       // create a new component object from the draggedComponent data
       const newComponent = new Component({
         name: draggedComponent.name,
@@ -105,10 +142,12 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
         },
         { new: true }
       )
+        .populate('navbar')
+        .populate('footer')
 
-      console.log(updatedWebsite)
       res.status(200).json(updatedWebsite)
-    } else if (draggedComponent.type === 'footer') {
+    }
+    if (draggedComponent && draggedComponent.type === 'footer') {
       // create a new component object from the draggedComponent data
       const newComponent = new Component({
         type: draggedComponent.type,
@@ -132,7 +171,8 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
         .populate('footer')
 
       res.status(200).json(updatedWebsite)
-    } else {
+    }
+    if (draggedComponent && draggedComponent.type === 'body') {
       const updatedWebsite = await Website.findByIdAndUpdate(
         id,
         {

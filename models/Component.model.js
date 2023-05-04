@@ -9,7 +9,7 @@ const componentSchema = new Schema(
       lowercase: true,
       trim: true,
     },
-    navbarLinks: {
+    navLinks: {
       type: Array,
     },
     name: {
