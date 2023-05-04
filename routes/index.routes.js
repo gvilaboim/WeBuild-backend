@@ -114,6 +114,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
           components: [],
         }
         section.subsections.push(newSubsection)
+        section.numberOfColumns++
       }
 
       // Save the updated Website document to the database
