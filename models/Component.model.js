@@ -5,7 +5,6 @@ const componentSchema = new Schema(
   {
     type: {
       type: String,
-      required: true,
       lowercase: true,
       trim: true,
     },
@@ -14,7 +13,6 @@ const componentSchema = new Schema(
     },
     name: {
       type: String,
-      required: true,
     },
     category: {
       type: String,
@@ -24,7 +22,6 @@ const componentSchema = new Schema(
     },
     bgColor: {
       type: Object,
-      required: true,
     },
     text: {
       type: String
@@ -38,6 +35,12 @@ const componentSchema = new Schema(
     style: {
       type: String
     },
+    htmltag: {
+      type: String
+    },
+    src: {
+      type: String
+    }
   },
   {
     timestamps: true,

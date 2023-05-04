@@ -65,8 +65,18 @@ router.get('/websites/:id', isAuthenticated, async (req, res, next) => {
   const { id } = req.params
   if (id) {
     Website.findById(id)
-      .populate('navbar')
-      .populate('footer')
+    .populate('navbar')
+    .populate('footer')
+    .populate({
+      path: 'sections',
+      populate: {
+        path: 'subsections',
+        populate: {
+          path: 'components',
+          model: 'Component',
+        },
+      },
+    })
       .then((foundWebsite) => {
         res.status(200).json(foundWebsite)
       })
@@ -86,6 +96,8 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     },
   } = req.body
 
+
+  console.log( draggedComponent)
   const { id } = req.params
 
   try {
@@ -111,7 +123,19 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
       }
 
       // Save the updated Website document to the database
-      const updatedWebsite = await website.save()
+      const updatedWebsite = await website.save() 
+      .populate('navbar')
+      .populate('footer')
+      .populate({
+        path: 'sections',
+        populate: {
+          path: 'subsections',
+          populate: {
+            path: 'components',
+            model: 'Component',
+          },
+        },
+      })
       res.status(200).json(updatedWebsite)
     }
 
@@ -133,7 +157,16 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
       )
         .populate('navbar')
         .populate('footer')
-
+        .populate({
+          path: 'sections',
+          populate: {
+            path: 'subsections',
+            populate: {
+              path: 'components',
+              model: 'Component',
+            },
+          },
+        })
       res.status(200).json(updatedWebsite)
     }
     if (draggedComponent && draggedComponent.type === 'footer') {
@@ -155,6 +188,16 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
       )
         .populate('navbar')
         .populate('footer')
+        .populate({
+          path: 'sections',
+          populate: {
+            path: 'subsections',
+            populate: {
+              path: 'components',
+              model: 'Component',
+            },
+          },
+        })
 
       res.status(200).json(updatedWebsite)
     }
