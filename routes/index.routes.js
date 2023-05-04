@@ -88,12 +88,6 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
 
   const { id } = req.params
 
-  console.log(
-    draggedComponent,
-    sectionIndex,
-    subsectionIndex,
-    subsectionsIncrease
-  )
   try {
     // Handles Subsections Increase or Decrease (later)
     if (subsectionsIncrease && !draggedComponent) {
@@ -104,7 +98,6 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
       const section = website.sections[sectionIndex]
       // Check how many Subsection objects are currently in the subsections array
       const numSubsections = section.subsections.length
-      console.log(numSubsections)
 
       // Add a new Subsection object to the subsections array
       for (let i = 0; i < subsectionsIncrease; i++) {
@@ -125,12 +118,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     //Handles Dropped items updates
     if (draggedComponent && draggedComponent.type === 'navbar') {
       // create a new component object from the draggedComponent data
-      const newComponent = new Component({
-        name: draggedComponent.name,
-        type: draggedComponent.type,
-        navLinks: draggedComponent.navLinks,
-        bgColor: draggedComponent.bgColor,
-      })
+      const newComponent = new Component(draggedComponent)
 
       // save the new component object to the database
       const savedComponent = await newComponent.save()
@@ -151,10 +139,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     if (draggedComponent && draggedComponent.type === 'footer') {
       // create a new component object from the draggedComponent data
       const newComponent = new Component({
-        type: draggedComponent.type,
-        name: draggedComponent.name,
-        layout: draggedComponent.layout,
-        bgColor: draggedComponent.bgColor,
+        draggedComponent,
       })
 
       // save the new component object to the database
@@ -174,24 +159,40 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
       res.status(200).json(updatedWebsite)
     }
     if (draggedComponent && draggedComponent.type === 'body') {
+      // create a new component object from the draggedComponent data
+      const newComponent = await Component.create(draggedComponent)
+      console.log(newComponent)
+
+      // save the new component object to the database
+      // const newComponentId = Component.findById(draggedComponent._id)
+
       const updatedWebsite = await Website.findByIdAndUpdate(
         id,
         {
           $push: {
             [`sections.${sectionIndex}.subsections.${subsectionIndex}.components`]:
-              {
-                name: draggedComponent.name,
-                type: draggedComponent.type,
-                layout: draggedComponent.layout,
-                bgColor: draggedComponent.bgColor,
-              },
+              newComponent._id,
           },
         },
         { new: true }
       )
         .populate('navbar')
         .populate('footer')
-
+        .populate({
+          path: 'sections',
+          populate: {
+            path: 'subsections',
+            populate: {
+              path: 'components',
+              model: 'Component',
+            },
+          },
+        })
+      console.log(
+        newComponent._id,
+        updatedWebsite.sections[sectionIndex].subsections[subsectionIndex]
+          .components
+      )
       res.status(200).json(updatedWebsite)
     }
   } catch (error) {

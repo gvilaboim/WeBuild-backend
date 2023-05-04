@@ -2,14 +2,14 @@
 
 const mongoose = require('mongoose')
 const { Schema, model } = mongoose
-const Component = require('./Component.model');
+const Component = require('./Component.model')
 
 const subsectionSchema = new Schema({
   name: {
     type: String,
     required: true,
   },
-  components: [Component.schema]
+  components: [{ type: Schema.Types.ObjectId, ref: 'Component' }],
 })
 
 const sectionSchema = new Schema(
