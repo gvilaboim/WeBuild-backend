@@ -173,30 +173,68 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
       res.status(200).json(updatedWebsite)
     }
     if (draggedComponent && draggedComponent.type === 'body') {
+      const newComponent = new Component({
+        name: draggedComponent.name,
+        type: draggedComponent.type,
+        layout: draggedComponent.layout,
+        bgColor: draggedComponent.bgColor,
+      })
+
+
+      //criar o componente na tabela dos componentes e só depois inserir o id na base de dados
+
+      const savedComponent = await newComponent.save()
       const updatedWebsite = await Website.findByIdAndUpdate(
         id,
         {
           $push: {
             [`sections.${sectionIndex}.subsections.${subsectionIndex}.components`]:
-              {
-                name: draggedComponent.name,
-                type: draggedComponent.type,
-                layout: draggedComponent.layout,
-                bgColor: draggedComponent.bgColor,
-              },
+              savedComponent._id,
           },
         },
         { new: true }
       )
         .populate('navbar')
         .populate('footer')
-
       res.status(200).json(updatedWebsite)
-    }
+    } 
   } catch (error) {
     console.log(error)
     res.status(500).send('Internal server error')
   }
 })
+
+
+
+//COMPONENT EDIT
+router.put('/websites/components/edit/', isAuthenticated, async (req, res, next) => {
+
+  const { componentData } = req.body
+  console.log(componentData._id)
+
+  console.log(componentData)
+  Component.findByIdAndUpdate(componentData._id, {
+    type: componentData.type,
+    navLinks: componentData.navLinks,
+    name: componentData.name,
+    category: componentData.category,
+    layout: componentData.layout,
+    bgColor: componentData.bgColor,
+    text: componentData.text,
+    border: componentData.border,
+    padding: componentData.padding,
+    style: componentData.style
+  }).then(response => {
+    res.status(200).json(response)
+  }).catch(error => {
+    console.error(error)
+    res.status(500).json({ error: 'Failed to update component' })
+  })
+
+
+
+
+})
+
 
 module.exports = router

@@ -11,21 +11,34 @@ const defaultComponentSchema = new Schema(
       lowercase: true,
       trim: true,
     },
+    navLinks: {
+      type: Array,
+    },
     name: {
       type: String,
       required: true,
     },
     category: {
       type: String,
-      required: true,
     },
     layout: {
       type: Object,
-      required: true,
     },
     bgColor: {
       type: Object,
       required: true,
+    },
+    text: {
+      type: String
+    },
+    border: {
+      type: String
+    },
+    padding: {
+      type:String,
+    },
+    style: {
+      type: String
     },
   },
   {

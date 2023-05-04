@@ -26,6 +26,18 @@ const componentSchema = new Schema(
       type: Object,
       required: true,
     },
+    text: {
+      type: String
+    },
+    border: {
+      type: String
+    },
+    padding: {
+      type:String,
+    },
+    style: {
+      type: String
+    },
   },
   {
     timestamps: true,
