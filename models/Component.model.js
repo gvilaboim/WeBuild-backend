@@ -1,6 +1,5 @@
-
-const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+const mongoose = require('mongoose')
+const { Schema, model } = mongoose
 
 const componentSchema = new Schema(
   {
@@ -10,17 +9,18 @@ const componentSchema = new Schema(
       lowercase: true,
       trim: true,
     },
+    navbarLinks: {
+      type: Array,
+    },
     name: {
       type: String,
       required: true,
     },
     category: {
       type: String,
-      required: true,
     },
     layout: {
       type: Object,
-      required: true,
     },
     bgColor: {
       type: Object,
@@ -30,8 +30,8 @@ const componentSchema = new Schema(
   {
     timestamps: true,
   }
-);
+)
 
-const Component = model("Component", componentSchema);
+const Component = model('Component', componentSchema)
 
-module.exports = Component;
+module.exports = Component

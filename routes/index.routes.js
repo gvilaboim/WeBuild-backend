@@ -77,29 +77,82 @@ router.get('/websites/:id', isAuthenticated, async (req, res, next) => {
   }
 })
 
-router.put('/websites/', isAuthenticated, async (req, res, next) => {
+router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
   const {
-    siteData: { id, draggedComponent, sectionIndex, subsectionIndex },
+    siteData: { draggedComponent, sectionIndex, subsectionIndex },
   } = req.body
 
+  const { id } = req.params
+  console.log(id)
   try {
-    const updatedWebsite = await Website.findByIdAndUpdate(
-      id,
-      {
-        $push: {
-          [`sections.${sectionIndex}.subsections.${subsectionIndex}.components`]:
-            {
-              name: draggedComponent.name,
-              type: draggedComponent.type,
-              layout: draggedComponent.layout,
-              bgColor: draggedComponent.bgColor,
-            },
-        },
-      },
-      { new: true }
-    )
+    if (draggedComponent.type === 'navbar') {
+      // create a new component object from the draggedComponent data
+      const newComponent = new Component({
+        name: draggedComponent.name,
+        type: draggedComponent.type,
+        navLinks: draggedComponent.navLinks,
+        bgColor: draggedComponent.bgColor,
+      })
 
-    res.status(200).json(updatedWebsite)
+      // save the new component object to the database
+      const savedComponent = await newComponent.save()
+
+      // add the component's _id to the navbar array of the website
+      const updatedWebsite = await Website.findByIdAndUpdate(
+        id,
+        {
+          $push: { navbar: savedComponent._id },
+        },
+        { new: true }
+      )
+
+      console.log(updatedWebsite)
+      res.status(200).json(updatedWebsite)
+    } else if (draggedComponent.type === 'footer') {
+      // create a new component object from the draggedComponent data
+      const newComponent = new Component({
+        type: draggedComponent.type,
+        name: draggedComponent.name,
+        layout: draggedComponent.layout,
+        bgColor: draggedComponent.bgColor,
+      })
+
+      // save the new component object to the database
+      const savedComponent = await newComponent.save()
+
+      // add the component's _id to the navbar array of the website
+      const updatedWebsite = await Website.findByIdAndUpdate(
+        id,
+        {
+          $push: { footer: savedComponent._id },
+        },
+        { new: true }
+      )
+        .populate('navbar')
+        .populate('footer')
+
+      res.status(200).json(updatedWebsite)
+    } else {
+      const updatedWebsite = await Website.findByIdAndUpdate(
+        id,
+        {
+          $push: {
+            [`sections.${sectionIndex}.subsections.${subsectionIndex}.components`]:
+              {
+                name: draggedComponent.name,
+                type: draggedComponent.type,
+                layout: draggedComponent.layout,
+                bgColor: draggedComponent.bgColor,
+              },
+          },
+        },
+        { new: true }
+      )
+        .populate('navbar')
+        .populate('footer')
+
+      res.status(200).json(updatedWebsite)
+    }
   } catch (error) {
     console.log(error)
     res.status(500).send('Internal server error')
