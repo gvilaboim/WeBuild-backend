@@ -9,9 +9,12 @@ const defaultComponentSchema = new Schema(
       type: String,
       lowercase: true,
       trim: true,
+      required: true,
     },
-    navLinks: {
-      type: Array,
+    htmltag: {
+      type: String,
+      required: true,
+      default: "div",
     },
     name: {
       type: String,
@@ -19,6 +22,14 @@ const defaultComponentSchema = new Schema(
     category: {
       type: String,
     },
+    //navbar
+    brand: {
+      type: Object,
+    },
+    navLinks: {
+      type: Array,
+    },
+    //other comps
     layout: {
       type: Object,
     },
@@ -28,21 +39,9 @@ const defaultComponentSchema = new Schema(
     text: {
       type: String
     },
-    border: {
-      type: String
-    },
-    padding: {
-      type:String,
-    },
     style: {
-      type: String
+      type: Object
     },
-    htmltag: {
-      type: String
-    },
-    src: {
-      type: String
-    }
   },
   {
     timestamps: true,

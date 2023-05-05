@@ -67,18 +67,32 @@
   },
   {
     "type": "body",
+    "htmlTag": "div",
     "name": "landing-block",
-    "layout": {
-      "x": 0,
-      "y": 0,
-      "w": 50,
-      "h": 100
-    },
-    "bgColor": {
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 1
+    "category": "main",
+    "text": "This is your Landing Block, add something",
+    "style": {
+      "width": "100",
+      "height": "100",
+      "padding":{
+        "top": "20",
+        "right": "20",
+        "bottom": "20",
+        "left": "20"
+      },
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "w": 50,
+        "h": 100
+      },
+      "backgroundColor": {
+        "r": 255,
+        "g": 255,
+        "b": 1,
+        "a": 1
+      },
+      "backgroundImage": "/landing.jpg"
     }
   },
   {
