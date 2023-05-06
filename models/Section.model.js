@@ -16,15 +16,10 @@ const sectionSchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
+      default: 'empty section',
     },
     renderOrder: Number,
     subsections: [subsectionSchema],
-    numberOfColumns: {
-      type: Number,
-      required: true,
-      default: 1,
-    },
   },
   {
     timestamps: true,
