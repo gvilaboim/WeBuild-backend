@@ -103,12 +103,6 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     },
   } = req.body
 
-<<<<<<< HEAD
- 
-  console.log( draggedComponent)
-=======
-
->>>>>>> 5b0f773e9fc361ea0d02b1f9534eff5834bd689c
   const { id } = req.params
 
   try {
@@ -331,12 +325,6 @@ router.put(
 )
 
 //COMPONENT EDIT
-router.put(
-  '/websites/components/edit/',
-  isAuthenticated,
-  async (req, res, next) => {
-    const { componentData } = req.body
-    console.log(componentData._id)
 
 
 //COMPONENT EDIT
