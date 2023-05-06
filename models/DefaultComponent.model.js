@@ -33,9 +33,7 @@ const defaultComponentSchema = new Schema(
     layout: {
       type: Object,
     },
-    bgColor: {
-      type: Object,
-    },
+  
     text: {
       type: String
     },
