@@ -18,6 +18,10 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Name is required."],
     },
+    plan: {
+      type: Schema.Types.ObjectId,
+      ref: 'Plans',
+    }
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

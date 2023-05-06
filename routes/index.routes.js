@@ -2,12 +2,15 @@ const express = require('express')
 const { isAuthenticated } = require('../middleware/jwt.middleware')
 const Component = require('../models/Component.model')
 const DefaultComponent = require('../models/DefaultComponent.model')
-
+const Plans = require('../models/Plans.model')
 const Website = require('../models/Website.model')
 const Section = require('../models/Section.model')
 const { default: mongoose } = require('mongoose')
 
 const router = express.Router()
+
+const app = express()
+const stripe = require('stripe')('sk_test_QUXcoU3BnbZXp6IMVi7BkW8s')
 
 router.get('/', isAuthenticated, (req, res, next) => {
   res.json('All good in here')
@@ -310,7 +313,7 @@ router.put(
         const updatedWebsite = await Website.findByIdAndUpdate(
           id,
           {
-            $pull: { 'sections': { _id: sectionId } },
+            $pull: { sections: { _id: sectionId } },
           },
           { new: true }
         )
@@ -366,5 +369,41 @@ router.put(
       })
   }
 )
+
+router.get('/plans/all/', isAuthenticated, async (req, res, next) => {
+  const foundPlans = await Plans.find()
+  console.log('here')
+  res.status(200).json(foundPlans)
+})
+
+router.get('/plans/:id', isAuthenticated, async (req, res, next) => {
+  const { id } = req.params
+
+  const foundPlans = await Plans.findById(id)
+  console.log('here')
+  res.status(200).json(foundPlans)
+})
+
+router.post('/create-checkout-session', isAuthenticated, async (req, res) => {
+  const session = await stripe.checkout.sessions.create({
+    line_items: [
+      {
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: 'T-shirt',
+          },
+          unit_amount: 2000,
+        },
+        quantity: 1,
+      },
+    ],
+    mode: 'payment',
+    success_url: 'http://localhost:3000/', //  http://localhost:4242/success
+    cancel_url: 'http://localhost:4242/cancel', // http://localhost:4242/cancel
+  })
+
+  res.redirect(303, session.url)
+})
 
 module.exports = router
