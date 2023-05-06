@@ -95,15 +95,20 @@ router.get('/websites/:id', isAuthenticated, async (req, res, next) => {
 router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
   const {
     siteData: {
-      draggedComponent,
+      droppedComponent,
       sectionIndex,
       subsectionIndex,
       subsectionsIncrease,
+      subsectionId,
     },
   } = req.body
 
+<<<<<<< HEAD
  
   console.log( draggedComponent)
+=======
+
+>>>>>>> 5b0f773e9fc361ea0d02b1f9534eff5834bd689c
   const { id } = req.params
 
   try {
@@ -146,12 +151,35 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     }
 
     //Handles Dropped items updates
-    if (draggedComponent && draggedComponent.type === 'navbar') {
-      // create a new component object from the draggedComponent data
-      const newComponent = new Component(draggedComponent)
+    if (droppedComponent && droppedComponent.type === 'navbar') {
+      // create a new component object from the droppedComponent data
+      const newComponent = await Component.create(droppedComponent)
 
-      // save the new component object to the database
-      const savedComponent = await newComponent.save()
+      // add to the navbar array of the website
+      const updatedWebsite = await Website.findByIdAndUpdate(
+        id,
+        {
+          $push: { navbar: newComponent._id },
+        },
+        { new: true }
+      )
+        .populate('navbar')
+        .populate('footer')
+        .populate({
+          path: 'sections',
+          populate: {
+            path: 'subsections',
+            populate: {
+              path: 'components',
+              model: 'Component',
+            },
+          },
+        })
+      res.status(200).json(updatedWebsite)
+    }
+    if (droppedComponent && droppedComponent.type === 'footer') {
+      // create a new component object from the droppedComponent data
+      const newComponent = await Component.create(droppedComponent)
 
       // add the component's _id to the navbar array of the website
       const updatedWebsite = await Website.findByIdAndUpdate(
@@ -250,6 +278,65 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
   }
 })
 
+router.put(
+  '/websites/:id/delete-subsection',
+  isAuthenticated,
+  async (req, res, next) => {
+    const { subsectionId, sectionId } = req.body
+    const { id } = req.params
+
+    try {
+      // Delete a subsection
+      if (subsectionId) {
+        const deletedSubWebsite = await Website.findByIdAndUpdate(
+          id,
+          { $pull: { 'sections.$[].subsections': { _id: subsectionId } } },
+          { new: true }
+        )
+        const section = await Section.findById(sectionId)
+
+        if (section) {
+          const numColumns = section.subsections.length
+          const updatedWebsite = await Website.findOneAndUpdate(
+            { _id: id, 'sections._id': sectionId },
+            { $set: { 'sections.$.numberOfColumns': numColumns } },
+            { new: true }
+          )
+            .populate('navbar')
+            .populate('footer')
+            .populate({
+              path: 'sections',
+              populate: {
+                path: 'subsections',
+                populate: {
+                  path: 'components',
+                  model: 'Component',
+                },
+              },
+            })
+
+          console.log(
+            `Updated section ${sectionId} with ${numColumns} columns`,
+            updatedWebsite
+          )
+
+          res.status(200).json(updatedWebsite)
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      res.status(500).send('Internal server error')
+    }
+  }
+)
+
+//COMPONENT EDIT
+router.put(
+  '/websites/components/edit/',
+  isAuthenticated,
+  async (req, res, next) => {
+    const { componentData } = req.body
+    console.log(componentData._id)
 
 
 //COMPONENT EDIT
