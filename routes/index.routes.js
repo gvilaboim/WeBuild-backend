@@ -93,11 +93,11 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
       sectionIndex,
       subsectionIndex,
       subsectionsIncrease,
+      subsectionId,
     },
   } = req.body
 
   const { id } = req.params
-  console.log(droppedComponent)
 
   try {
     // Handles Subsections Increase or Decrease (later)
@@ -141,10 +141,9 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
 
     //Handles Dropped items updates
     if (droppedComponent && droppedComponent.type === 'navbar') {
-
       // create a new component object from the droppedComponent data
       const newComponent = await Component.create(droppedComponent)
-      
+
       // add to the navbar array of the website
       const updatedWebsite = await Website.findByIdAndUpdate(
         id,
@@ -221,6 +220,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
           },
         })
 
+      console.log(updatedWebsite.sections)
       res.status(200).json(updatedWebsite)
     }
   } catch (error) {
@@ -228,6 +228,58 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     res.status(500).send('Internal server error')
   }
 })
+
+router.put(
+  '/websites/:id/delete-subsection',
+  isAuthenticated,
+  async (req, res, next) => {
+    const { subsectionId, sectionId } = req.body
+    const { id } = req.params
+
+    try {
+      // Delete a subsection
+      if (subsectionId) {
+        const deletedSubWebsite = await Website.findByIdAndUpdate(
+          id,
+          { $pull: { 'sections.$[].subsections': { _id: subsectionId } } },
+          { new: true }
+        )
+        const section = await Section.findById(sectionId)
+
+        if (section) {
+          const numColumns = section.subsections.length
+          const updatedWebsite = await Website.findOneAndUpdate(
+            { _id: id, 'sections._id': sectionId },
+            { $set: { 'sections.$.numberOfColumns': numColumns } },
+            { new: true }
+          )
+            .populate('navbar')
+            .populate('footer')
+            .populate({
+              path: 'sections',
+              populate: {
+                path: 'subsections',
+                populate: {
+                  path: 'components',
+                  model: 'Component',
+                },
+              },
+            })
+
+          console.log(
+            `Updated section ${sectionId} with ${numColumns} columns`,
+            updatedWebsite
+          )
+
+          res.status(200).json(updatedWebsite)
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      res.status(500).send('Internal server error')
+    }
+  }
+)
 
 //COMPONENT EDIT
 router.put(
