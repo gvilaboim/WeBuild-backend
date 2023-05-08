@@ -4,6 +4,7 @@ const Component = require('../models/Component.model')
 const DefaultComponent = require('../models/DefaultComponent.model')
 const Plans = require('../models/Plans.model')
 const Website = require('../models/Website.model')
+const User = require('../models/User.model')
 const Section = require('../models/Section.model')
 const { default: mongoose } = require('mongoose')
 
@@ -15,6 +16,16 @@ const stripe = require('stripe')('sk_test_QUXcoU3BnbZXp6IMVi7BkW8s')
 router.get('/', isAuthenticated, (req, res, next) => {
   res.json('All good in here')
 })
+
+
+router.get('/user/:id', isAuthenticated,async (req, res, next) => {
+  const { id } = req.params
+  const UserFounded = await User.findById(id).populate("plan")
+  console.log(UserFounded)
+  res.json(UserFounded)
+})
+
+
 
 router.get('/canvas-store', isAuthenticated, async (req, res, next) => {
   const foundComponents = await DefaultComponent.find()
@@ -384,26 +395,56 @@ router.get('/plans/:id', isAuthenticated, async (req, res, next) => {
   res.status(200).json(foundPlans)
 })
 
-router.post('/create-checkout-session', isAuthenticated, async (req, res) => {
+router.post("/create-checkout-session", isAuthenticated, async (req, res) => {
+  const { details } = req.body;
+  console.log("DETAils:",details);
+ 
   const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
     line_items: [
       {
         price_data: {
-          currency: 'usd',
+          currency: "eur",
           product_data: {
-            name: 'T-shirt',
+            name: details.plan.name,
           },
-          unit_amount: 2000,
+          unit_amount: details.plan.price,
         },
         quantity: 1,
       },
     ],
-    mode: 'payment',
-    success_url: 'http://localhost:3000/', //  http://localhost:4242/success
-    cancel_url: 'http://localhost:4242/cancel', // http://localhost:4242/cancel
-  })
+    mode: "payment",
+    success_url: "http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}",
+    cancel_url: "http://localhost:3000",
+    metadata: {
+      planId: details.plan._id,
+      userId: details.userId
+    },
+  });
 
-  res.redirect(303, session.url)
-})
+  console.log(session.id )
+  res.json({ url: session.url , id: session.id  } );
+});
+
+router.get("/get-payment-details/:sessionId",  isAuthenticated, async (req, res) => {
+  const { sessionId } = req.params;
+  console.log("get-payment-details ID :" ,sessionId)
+  const session = await stripe.checkout.sessions.retrieve(sessionId);
+  const paymentIntent = await stripe.paymentIntents.retrieve(session.payment_intent);
+  const paymentId = paymentIntent.id;
+  console.log("SESSION ->",session)
+  const planId = session.metadata.planId;
+  const userId = session.metadata.userId;
+
+  res.json({ paymentId, planId, userId });
+});
+
+router.post("/update-user-plan",  isAuthenticated, async (req, res) => {
+  const { userId, planId } = req.body;
+  const user = await User.findById(userId);
+  user.plan = planId;
+  await user.save();
+  res.json({ status: "success" , userId: userId});
+});
 
 module.exports = router
