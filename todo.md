@@ -2,16 +2,16 @@
 
 ## Create Page
 # finish functionality
-- update form - ✅
-- add/remove sections - Modal "are you sure?"
-- add/remove subsections - Modal "are you sure?" ✅
+- update form
+- add/remove sections - Modal "are you sure?" - ✅
+- add/remove subsections - Modal "are you sure?" - ✅
 - add website background
+- add Section (reorder) - ✅
 
 # Dashboard
 
 ## Cloudinary
 - file upload for images 
-
 
 ### Optional
 # Stripe

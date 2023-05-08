@@ -1,15 +1,12 @@
-// models/Subsection.js
-
 const mongoose = require('mongoose')
 const { Schema, model } = mongoose
-const Component = require('./Component.model')
 
 const subsectionSchema = new Schema({
   name: {
     type: String,
-    required: true,
+    default: 'empty subsection',
   },
-  components: [{ type: Schema.Types.ObjectId, ref: 'Component' }],
+  components: [{ type: Schema.Types.ObjectId, ref: 'Component', default: [] }],
 })
 
 const sectionSchema = new Schema(
@@ -21,11 +18,8 @@ const sectionSchema = new Schema(
     renderOrder: Number,
     subsections: [subsectionSchema],
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 )
 
 const Section = model('Section', sectionSchema)
-
 module.exports = Section

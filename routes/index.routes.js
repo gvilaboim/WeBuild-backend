@@ -30,27 +30,21 @@ router.post('/websites/create', isAuthenticated, async (req, res, next) => {
     } = req.body
     const user = new mongoose.Types.ObjectId(req.payload._id)
 
-    const newWebsite = new Website({ user, name, category })
-
     // by default 3 empty sections are created
     const sections = []
     for (let i = 0; i < 3; i++) {
-      const section = new Section({
-        name: `Section ${i + 1}`,
+      const section = await Section.create({
         renderOrder: i,
         subsections: [
           {
-            name: `Subsection ${1}`,
             components: [],
           },
         ],
       })
-      await section.save()
       sections.push(section)
     }
-    newWebsite.sections = sections
+    const newWebsite = await Website.create({ user, name, category, sections })
 
-    await newWebsite.save()
     res.status(201).json(newWebsite)
   } catch (error) {
     console.error(error)
@@ -126,7 +120,6 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
       // Add a new Subsection object to the subsections array
       for (let i = 0; i < subsectionsIncrease; i++) {
         const newSubsection = {
-          name: `Subsection ${numSubsections + i + 1}`,
           renderOrder: numSubsections + i,
           components: [],
         }
@@ -135,7 +128,6 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
 
       // Save the updated Website document to the database
       const updatedWebsite = await website.save()
-
       res.status(200).json(updatedWebsite)
     }
 
@@ -174,32 +166,6 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
       const updatedWebsite = await Website.findByIdAndUpdate(
         id,
         {
-          $push: { navbar: newComponent._id },
-        },
-        { new: true }
-      )
-        .populate('navbar')
-        .populate('footer')
-        .populate({
-          path: 'sections',
-          populate: {
-            path: 'subsections',
-            populate: {
-              path: 'components',
-              model: 'Component',
-            },
-          },
-        })
-      res.status(200).json(updatedWebsite)
-    }
-    if (droppedComponent && droppedComponent.type === 'footer') {
-      // create a new component object from the draggedComponent data
-      const newComponent = await Component.create(droppedComponent)
-
-      // add the component's _id to the navbar array of the website
-      const updatedWebsite = await Website.findByIdAndUpdate(
-        id,
-        {
           $push: { footer: newComponent._id },
         },
         { new: true }
@@ -216,16 +182,12 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
             },
           },
         })
-
       res.status(200).json(updatedWebsite)
     }
-    if (droppedComponent && droppedComponent.type === 'body') {
-      // create a new component object from the draggedComponent data
-      const newComponent = await Component.create(droppedComponent)
-      console.log(newComponent)
 
-      // save the new component object to the database
-      // const newComponentId = Component.findById(draggedComponent._id)
+    if (droppedComponent && droppedComponent.type === 'body') {
+      // create a new component object from the droppedComponent data
+      const newComponent = await Component.create(droppedComponent)
 
       const updatedWebsite = await Website.findByIdAndUpdate(
         id,
@@ -249,11 +211,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
             },
           },
         })
-      console.log(
-        newComponent._id,
-        updatedWebsite.sections[sectionIndex].subsections[subsectionIndex]
-          .components
-      )
+
       res.status(200).json(updatedWebsite)
     }
   } catch (error) {
@@ -332,6 +290,56 @@ router.put(
 
         res.status(200).json(updatedWebsite)
       }
+    } catch (error) {
+      console.log(error)
+      res.status(500).send('Internal server error')
+    }
+  }
+)
+router.put(
+  '/websites/:id/add-section',
+  isAuthenticated,
+  async (req, res, next) => {
+    const { sectionId } = req.body
+    const { id } = req.params
+
+    try {
+      const website = await Website.findByIdAndUpdate(id)
+        .populate('navbar')
+        .populate('footer')
+        .populate({
+          path: 'sections',
+          populate: {
+            path: 'subsections',
+            populate: {
+              path: 'components',
+              model: 'Component',
+            },
+          },
+        })
+
+      // find the index of the section where the button was clicked
+      const sectionIndex = website.sections.findIndex(
+        (section) => section._id.toString() === sectionId
+      )
+
+      // create a new Section object
+      const newSubsection = { components: [] }
+      const newSection = await Section.create({ subsections: newSubsection })
+      console.log(newSection)
+
+      // insert the new Section object after the clicked section
+      website.sections.splice(sectionIndex + 1, 0, newSection)
+
+      // update the renderOrder property of the affected sections
+      website.sections.forEach((section, index) => {
+        section.renderOrder = index
+      })
+
+      // save the updated Website document to the database
+      const updatedWebsite = await website.save()
+
+      res.status(200).json(updatedWebsite)
     } catch (error) {
       console.log(error)
       res.status(500).send('Internal server error')
