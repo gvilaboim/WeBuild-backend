@@ -12,7 +12,7 @@ const componentSchema = new Schema(
     htmltag: {
       type: String,
       required: true,
-      default: "div",
+      default: 'div',
     },
     name: {
       type: String,
@@ -34,11 +34,9 @@ const componentSchema = new Schema(
     bgColor: {
       type: Object,
     },
-    text: {
-      type: String
-    },
+    items: [Object],
     style: {
-      type: Object
+      type: Object,
     },
   },
   {

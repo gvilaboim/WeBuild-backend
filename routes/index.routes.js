@@ -104,6 +104,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
   } = req.body
 
   const { id } = req.params
+  console.log(droppedComponent?.items)
 
   try {
     // Handles Subsections Increase or Decrease (later)
@@ -197,6 +198,8 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     }
 
     if (droppedComponent && droppedComponent.type === 'body') {
+
+      console.log(droppedComponent)
       // create a new component object from the droppedComponent data
       const newComponent = await Component.create(droppedComponent)
 

@@ -1,7 +1,7 @@
 // models/Component.js
 
-const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+const mongoose = require('mongoose')
+const { Schema, model } = mongoose
 
 const defaultComponentSchema = new Schema(
   {
@@ -14,7 +14,7 @@ const defaultComponentSchema = new Schema(
     htmltag: {
       type: String,
       required: true,
-      default: "div",
+      default: 'div',
     },
     name: {
       type: String,
@@ -33,19 +33,21 @@ const defaultComponentSchema = new Schema(
     layout: {
       type: Object,
     },
-  
-    text: {
-      type: String
-    },
+
+    items: [
+      {
+        type: Object,
+      },
+    ],
     style: {
-      type: Object
+      type: Object,
     },
   },
   {
     timestamps: true,
   }
-);
+)
 
-const DefaultComponent = model("DefaultComponent", defaultComponentSchema);
+const DefaultComponent = model('DefaultComponent', defaultComponentSchema)
 
-module.exports = DefaultComponent;
+module.exports = DefaultComponent
