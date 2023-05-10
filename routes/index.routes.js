@@ -19,8 +19,7 @@ router.get('/', isAuthenticated, (req, res, next) => {
 
 router.get('/user/:id', isAuthenticated, async (req, res, next) => {
   const { id } = req.params
-  const UserFounded = await User.findById(id).populate('plan')
-  console.log(UserFounded)
+  const UserFounded = await User.findById(id).populate("plan")
   res.json(UserFounded)
 })
 
@@ -65,6 +64,49 @@ router.get('/websites/get-all', isAuthenticated, async (req, res, next) => {
   res.status(200).json(foundWebsites)
 })
 
+
+
+
+router.get('/websites/publicview/:username/:sitename', async (req, res, next) => {
+  const { username , sitename } = req.params
+  if (username && sitename ) {
+
+    //Find with username and Sitename
+
+    User.findOne({ username })
+    .then(user => {
+   
+      Website.findOne({user: user._id , name : sitename })
+      .populate('navbar')
+      .populate('footer')
+      .populate({
+        path: 'sections',
+        populate: {
+          path: 'subsections',
+          populate: {
+            path: 'components',
+            model: 'Component',
+          },
+        },
+      })
+      .then((foundWebsite) => {
+        res.status(200).json(foundWebsite)
+      })
+      .catch((err) => console.log(err))
+
+    })
+    .catch(error => {
+      console.error(error);
+    });
+
+   
+  } else {
+    console.log('something goes wrong ')
+  }
+})
+
+
+
 router.get('/websites/:id', isAuthenticated, async (req, res, next) => {
   const { id } = req.params
   if (id) {
@@ -89,6 +131,11 @@ router.get('/websites/:id', isAuthenticated, async (req, res, next) => {
     console.log('id is undefined')
   }
 })
+
+
+
+
+
 
 router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
   const {
@@ -482,12 +529,49 @@ router.get(
   }
 )
 
-router.post('/update-user-plan', isAuthenticated, async (req, res) => {
-  const { userId, planId } = req.body
-  const user = await User.findById(userId)
-  user.plan = planId
-  await user.save()
-  res.json({ status: 'success', userId: userId })
-})
+router.post("/update-user-plan",  isAuthenticated, async (req, res) => {
+  try {
+
+  
+  const { userId, planId } = req.body;
+  const user = await User.findById(userId);
+  user.plan = planId;
+  await user.save();
+  res.json({ status: "success" , userId: userId});
+}
+catch(e)
+{
+  console.log(e)
+}
+});
+
+
+
+router.put("/settings/:id", isAuthenticated,async (req, res) => {
+  console.log("INSIDE PUTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+  const { id } = req.params;
+  const { userInfo } = req.body;
+  console.log(userInfo);
+  
+  User.findById(id)
+    .then(user => {
+      user.email = userInfo.email; // Use dot notation to set userInfo property
+      user.name = userInfo.name
+      user.username = userInfo.username
+
+      return user.save();
+    })
+    .then(response => {
+      console.log(response);
+      res.status(200).json({ status: "success" });
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(500).json({ error: "An error occurred while updating the user settings." });
+    });
+});
+
+
+
 
 module.exports = router
