@@ -34,11 +34,7 @@ const defaultComponentSchema = new Schema(
       type: Object,
     },
 
-    items: [
-      {
-        type: Object,
-      },
-    ],
+    items: [Object],
     style: {
       type: Object,
     },
