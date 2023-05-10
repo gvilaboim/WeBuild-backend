@@ -17,15 +17,12 @@ router.get('/', isAuthenticated, (req, res, next) => {
   res.json('All good in here')
 })
 
-
-router.get('/user/:id', isAuthenticated,async (req, res, next) => {
+router.get('/user/:id', isAuthenticated, async (req, res, next) => {
   const { id } = req.params
-  const UserFounded = await User.findById(id).populate("plan")
+  const UserFounded = await User.findById(id).populate('plan')
   console.log(UserFounded)
   res.json(UserFounded)
 })
-
-
 
 router.get('/canvas-store', isAuthenticated, async (req, res, next) => {
   const foundComponents = await DefaultComponent.find()
@@ -100,11 +97,11 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
       sectionIndex,
       subsectionIndex,
       subsectionsIncrease,
+      componentToEdit,
     },
   } = req.body
 
   const { id } = req.params
-  console.log(droppedComponent?.items)
 
   try {
     // Handles Subsections Increase or Decrease (later)
@@ -198,7 +195,6 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     }
 
     if (droppedComponent && droppedComponent.type === 'body') {
-
       console.log(droppedComponent)
       // create a new component object from the droppedComponent data
       const newComponent = await Component.create(droppedComponent)
@@ -213,6 +209,35 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
         },
         { new: true }
       )
+        .populate('navbar')
+        .populate('footer')
+        .populate({
+          path: 'sections',
+          populate: {
+            path: 'subsections',
+            populate: {
+              path: 'components',
+              model: 'Component',
+            },
+          },
+        })
+
+      res.status(200).json(updatedWebsite)
+    }
+    if (componentToEdit) {
+      
+      const updatedComponent = await Component.findByIdAndUpdate(
+        componentToEdit.id,
+        {
+          $set: {
+            'items.0.content': componentToEdit.data,
+          },
+        },
+        { new: true }
+        )
+        console.log(componentToEdit.data, updatedComponent)
+
+      const updatedWebsite = await Website.findById(id)
         .populate('navbar')
         .populate('footer')
         .populate({
@@ -406,16 +431,16 @@ router.get('/plans/:id', isAuthenticated, async (req, res, next) => {
   res.status(200).json(foundPlans)
 })
 
-router.post("/create-checkout-session", isAuthenticated, async (req, res) => {
-  const { details } = req.body;
-  console.log("DETAils:",details);
- 
+router.post('/create-checkout-session', isAuthenticated, async (req, res) => {
+  const { details } = req.body
+  console.log('DETAils:', details)
+
   const session = await stripe.checkout.sessions.create({
-    payment_method_types: ["card"],
+    payment_method_types: ['card'],
     line_items: [
       {
         price_data: {
-          currency: "eur",
+          currency: 'eur',
           product_data: {
             name: details.plan.name,
           },
@@ -424,38 +449,45 @@ router.post("/create-checkout-session", isAuthenticated, async (req, res) => {
         quantity: 1,
       },
     ],
-    mode: "payment",
-    success_url: "http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}",
-    cancel_url: "http://localhost:3000",
+    mode: 'payment',
+    success_url:
+      'http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}',
+    cancel_url: 'http://localhost:3000',
     metadata: {
       planId: details.plan._id,
-      userId: details.userId
+      userId: details.userId,
     },
-  });
+  })
 
-  console.log(session.id )
-  res.json({ url: session.url , id: session.id  } );
-});
+  console.log(session.id)
+  res.json({ url: session.url, id: session.id })
+})
 
-router.get("/get-payment-details/:sessionId",  isAuthenticated, async (req, res) => {
-  const { sessionId } = req.params;
-  console.log("get-payment-details ID :" ,sessionId)
-  const session = await stripe.checkout.sessions.retrieve(sessionId);
-  const paymentIntent = await stripe.paymentIntents.retrieve(session.payment_intent);
-  const paymentId = paymentIntent.id;
-  console.log("SESSION ->",session)
-  const planId = session.metadata.planId;
-  const userId = session.metadata.userId;
+router.get(
+  '/get-payment-details/:sessionId',
+  isAuthenticated,
+  async (req, res) => {
+    const { sessionId } = req.params
+    console.log('get-payment-details ID :', sessionId)
+    const session = await stripe.checkout.sessions.retrieve(sessionId)
+    const paymentIntent = await stripe.paymentIntents.retrieve(
+      session.payment_intent
+    )
+    const paymentId = paymentIntent.id
+    console.log('SESSION ->', session)
+    const planId = session.metadata.planId
+    const userId = session.metadata.userId
 
-  res.json({ paymentId, planId, userId });
-});
+    res.json({ paymentId, planId, userId })
+  }
+)
 
-router.post("/update-user-plan",  isAuthenticated, async (req, res) => {
-  const { userId, planId } = req.body;
-  const user = await User.findById(userId);
-  user.plan = planId;
-  await user.save();
-  res.json({ status: "success" , userId: userId});
-});
+router.post('/update-user-plan', isAuthenticated, async (req, res) => {
+  const { userId, planId } = req.body
+  const user = await User.findById(userId)
+  user.plan = planId
+  await user.save()
+  res.json({ status: 'success', userId: userId })
+})
 
 module.exports = router
