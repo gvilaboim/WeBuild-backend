@@ -75,7 +75,10 @@
       {
         "image": {
           "src": "/books.jpg",
-          "style": { "width": "700", "height": "500" }
+          "style": {
+            "width": "700",
+            "height": "500"
+          }
         },
         "content": {
           "title": "Responsive left-aligned hero with image",
@@ -229,10 +232,18 @@
                 "paymentFrequency": "/mo"
               },
               "listedItems": [
-                { "text": "10 users included" },
-                { "text": "2 GB of storage" },
-                { "text": "Email support" },
-                { "text": "Help center access" }
+                {
+                  "text": "10 users included"
+                },
+                {
+                  "text": "2 GB of storage"
+                },
+                {
+                  "text": "Email support"
+                },
+                {
+                  "text": "Help center access"
+                }
               ],
               "button": {
                 "text": "Sign up for free",
@@ -252,10 +263,18 @@
                 "paymentFrequency": "/mo"
               },
               "listedItems": [
-                { "text": "20 users included" },
-                { "text": "10 GB of storage" },
-                { "text": "Priority Email support" },
-                { "text": "Help center access" }
+                {
+                  "text": "20 users included"
+                },
+                {
+                  "text": "10 GB of storage"
+                },
+                {
+                  "text": "Priority Email support"
+                },
+                {
+                  "text": "Help center access"
+                }
               ],
               "button": {
                 "text": "Get started",
@@ -275,10 +294,18 @@
                 "paymentFrequency": "/mo"
               },
               "listedItems": [
-                { "text": "30 users included" },
-                { "text": "15 GB of storage" },
-                { "text": "Phone and email support" },
-                { "text": "Help center access" }
+                {
+                  "text": "30 users included"
+                },
+                {
+                  "text": "15 GB of storage"
+                },
+                {
+                  "text": "Phone and email support"
+                },
+                {
+                  "text": "Help center access"
+                }
               ],
               "button": {
                 "text": "Contact us",
@@ -308,33 +335,84 @@
     "name": "footer",
     "items": [
       {
-        "header": { "text": "Section 1" },
+        "header": {
+          "text": "Section 1"
+        },
         "links": [
-          { "text": "Home", "href": "#" },
-          { "text": "Features", "href": "#" },
-          { "text": "Pricing", "href": "#" },
-          { "text": "FAQs", "href": "#" },
-          { "text": "About", "href": "#" }
+          {
+            "text": "Home",
+            "href": "#"
+          },
+          {
+            "text": "Features",
+            "href": "#"
+          },
+          {
+            "text": "Pricing",
+            "href": "#"
+          },
+          {
+            "text": "FAQs",
+            "href": "#"
+          },
+          {
+            "text": "About",
+            "href": "#"
+          }
         ]
       },
       {
-        "header": { "text": "Section 2" },
+        "header": {
+          "text": "Section 2"
+        },
         "links": [
-          { "text": "Home", "href": "#" },
-          { "text": "Features", "href": "#" },
-          { "text": "Pricing", "href": "#" },
-          { "text": "FAQs", "href": "#" },
-          { "text": "About", "href": "#" }
+          {
+            "text": "Home",
+            "href": "#"
+          },
+          {
+            "text": "Features",
+            "href": "#"
+          },
+          {
+            "text": "Pricing",
+            "href": "#"
+          },
+          {
+            "text": "FAQs",
+            "href": "#"
+          },
+          {
+            "text": "About",
+            "href": "#"
+          }
         ]
       },
       {
-        "header": { "text": "Section 3" },
+        "header": {
+          "text": "Section 3"
+        },
         "links": [
-          { "text": "Home", "href": "#" },
-          { "text": "Features", "href": "#" },
-          { "text": "Pricing", "href": "#" },
-          { "text": "FAQs", "href": "#" },
-          { "text": "About", "href": "#" }
+          {
+            "text": "Home",
+            "href": "#"
+          },
+          {
+            "text": "Features",
+            "href": "#"
+          },
+          {
+            "text": "Pricing",
+            "href": "#"
+          },
+          {
+            "text": "FAQs",
+            "href": "#"
+          },
+          {
+            "text": "About",
+            "href": "#"
+          }
         ]
       }
     ],
@@ -348,6 +426,328 @@
       "r": 150,
       "g": 150,
       "b": 150,
+      "a": 1
+    }
+  },
+  {
+    "type": "body",
+    "name": "blog",
+    "category": "blog",
+    "items": [
+      {
+        "title": {
+          "text": "Featured Posts"
+        },
+        "cards": [
+          {
+            "header": {
+              "text": "Title of a longer featured blog post"
+            },
+            "body": {
+              "text": "Multiple lines of text that form the lede, informing new readers quickly and efficiently about what’s most interesting in this post’s contents.",
+              "link": {
+                "text": "Continue reading...",
+                "href": "#"
+              },
+              "bgColor": {
+                "r": 0,
+                "g": 0,
+                "b": 0,
+                "a": 1
+              },
+              "textColor": {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 1
+              }
+            },
+            "image": {
+              "src": "https://via.placeholder.com/200x250?text=Thumbnail",
+              "alt": "Thumbnail"
+            },
+            "categoryTag": {
+              "text": "World",
+              "bgColor": {
+                "r": 0,
+                "g": 123,
+                "b": 255,
+                "a": 1
+              },
+              "textColor": {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 1
+              }
+            }
+          },
+          {
+            "header": {
+              "text": "Post title"
+            },
+            "body": {
+              "text": "This is a wider card with supporting text below as a natural lead-in to additional content.",
+              "link": {
+                "text": "Continue reading...",
+                "href": "#"
+              },
+              "bgColor": {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 1
+              },
+              "textColor": {
+                "r": 0,
+                "g": 0,
+                "b": 0,
+                "a": 1
+              }
+            },
+            "image": {
+              "src": "https://via.placeholder.com/200x250?text=Thumbnail",
+              "alt": "Thumbnail"
+            },
+            "categoryTag": {
+              "text": "Design",
+              "bgColor": {
+                "r": 40,
+                "g": 167,
+                "b": 69,
+                "a": 1
+              },
+              "textColor": {
+                "r": 255,
+                "g": 255,
+                "b": 255,
+                "a": 1
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "body",
+    "name": "featuresA",
+    "category": "featuresA",
+    "items": [
+      {
+        "title": {
+          "text": "Features examples"
+        },
+        "sections": [
+          {
+            "title": {
+              "text": "Columns with icons"
+            },
+            "icon": {
+              "name": "collection",
+              "size": "1em"
+            },
+            "cards": [
+              {
+                "title": {
+                  "text": "Featured title"
+                },
+                "description": {
+                  "text": "Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words."
+                },
+                "button": {
+                  "text": "Call to action",
+                  "href": "#",
+                  "icon": "chevron-right"
+                }
+              },
+              {
+                "title": {
+                  "text": "Featured title 2"
+                },
+                "description": {
+                  "text": "Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words."
+                },
+                "button": {
+                  "text": "Call to action 2",
+                  "href": "#",
+                  "icon": "chevron-right"
+                }
+              },
+              {
+                "title": {
+                  "text": "Featured title 3"
+                },
+                "description": {
+                  "text": "Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words."
+                },
+                "button": {
+                  "text": "Call to action 3",
+                  "href": "#",
+                  "icon": "chevron-right"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "layout": {
+      "x": 0,
+      "y": 0,
+      "w": 50,
+      "h": 100
+    },
+    "bgColor": {
+      "r": 200,
+      "g": 200,
+      "b": 200,
+      "a": 1
+    }
+  },
+  {
+    "type": "body",
+    "name": "featuresB",
+    "category": "featuresB",
+    "items": [
+      {
+        "title": {
+          "text": "Left-aligned title explaining these awesome features"
+        },
+        "sections": [
+          {
+            "icon": {
+              "name": "collection",
+              "size": "1em"
+            },
+            "cards": [
+              {
+                "title": {
+                  "text": "Featured title"
+                },
+                "description": {
+                  "text": "Paragraph of text beneath the heading to explain the heading."
+                }
+              },
+              {
+                "title": {
+                  "text": "Featured title"
+                },
+                "description": {
+                  "text": "Paragraph of text beneath the heading to explain the heading."
+                }
+              },
+              {
+                "title": {
+                  "text": "Featured title"
+                },
+                "description": {
+                  "text": "Paragraph of text beneath the heading to explain the heading."
+                }
+              },
+              {
+                "title": {
+                  "text": "Featured title"
+                },
+                "description": {
+                  "text": "Paragraph of text beneath the heading to explain the heading."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "layout": {
+      "x": 0,
+      "y": 0,
+      "w": 50,
+      "h": 100
+    },
+    "bgColor": {
+      "r": 200,
+      "g": 200,
+      "b": 200,
+      "a": 1
+    }
+  },
+  {
+    "type": "body",
+    "name": "imageRight",
+    "category": "imageRight",
+    "items": [
+      {
+        "title": {
+          "text": "Columns with images"
+        },
+        "icon": {
+          "name": "image",
+          "size": "1em"
+        },
+        "cards": [
+          {
+            "title": {
+              "text": "First featurette heading."
+            },
+            "description": {
+              "text": "Some great placeholder content for the first featurette here. Imagine some exciting prose here."
+            },
+            "image": {
+              "src": "https://via.placeholder.com/500x500",
+              "alt": "Placeholder: 500x500"
+            }
+          }
+        ]
+      }
+    ],
+    "layout": {
+      "x": 0,
+      "y": 0,
+      "w": 50,
+      "h": 100
+    },
+    "bgColor": {
+      "r": 200,
+      "g": 200,
+      "b": 200,
+      "a": 1
+    }
+  },
+  {
+    "type": "body",
+    "name": "imageLeft",
+    "category": "imageLeft",
+    "items": [
+      {
+        "title": {
+          "text": "Oh yeah, it’s that good. See for yourself."
+        },
+        "cards": [
+          {
+            "title": {
+              "text": "Another featurette?"
+            },
+            "description": {
+              "text": "Of course. More placeholder content here to give you an idea of how this layout would work with some actual real-world content in place."
+            },
+            "image": {
+              "src": "https://via.placeholder.com/500x500",
+              "alt": "Placeholder: 500x500"
+            }
+          }
+        ]
+      }
+    ],
+    "layout": {
+      "x": 0,
+      "y": 0,
+      "w": 50,
+      "h": 100
+    },
+    "bgColor": {
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 1
     }
   }
