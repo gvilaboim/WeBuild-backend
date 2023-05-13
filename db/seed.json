@@ -45,15 +45,22 @@
           }
         },
         "content": {
-          "title": "Responsive left-aligned hero with image",
-          "subtitle": "Quickly design and customize responsive mobile-first sites with Bootstrap, the world's most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.",
+          "title": {
+            "text": "Responsive left-aligned hero with image",
+            "style": { "color": "#ffffff" }
+          },
+
+          "subtitle": {
+            "text": "Quickly design and customize responsive mobile-first sites with Bootstrap, the world's most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.",
+            "style": { "color": "#ffffff" }
+          },
           "primaryButton": {
             "text": "Primary",
-            "variant": "primary"
+            "backgroundColor": "#334455"
           },
           "secondaryButton": {
             "text": "Secondary",
-            "variant": "outline-secondary"
+            "backgroundColor": "#556656"
           }
         }
       }
@@ -510,8 +517,13 @@
           }
         ]
       }
+<<<<<<< HEAD
     ],   
      "style": {
+=======
+    ],
+    "style": {
+>>>>>>> 07e63393d0db6ab4a34b0565a20c4eeaf7adc4fa
       "display": "",
       "alignItems": "",
       "justifyContent": "",
@@ -523,8 +535,20 @@
         "bottom": 0,
         "left": 0
       },
+<<<<<<< HEAD
       "backgroundColor": "#a84d4d",
       "backgroundImage": "/landing.jpg"
+=======
+      "backgroundColor": "#A84D4D",
+      "backgroundImage": "/landing.jpg"
+    },
+
+    "bgColor": {
+      "r": 200,
+      "g": 200,
+      "b": 200,
+      "a": 1
+>>>>>>> 07e63393d0db6ab4a34b0565a20c4eeaf7adc4fa
     }
   },
   {
