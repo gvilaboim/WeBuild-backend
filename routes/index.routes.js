@@ -451,7 +451,6 @@ router.put(
           },
         })
 
-        console.log(updatedWebsite)
       res.status(200).json({ updatedWebsite, updatedComponent })
     } catch (error) {
       res.status(500).json({ message: error.message })
