@@ -428,6 +428,8 @@ router.put(
     const { componentData } = req.body
     const { id } = req.params
 
+    consol.log(componentData)
+
     try {
       const updatedComponent = await Component.findByIdAndUpdate(
         componentData._id,

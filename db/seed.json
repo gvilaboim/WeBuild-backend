@@ -456,16 +456,14 @@
     "category": "featuresA",
     "items": [
       {
-        "title": {
-          "text": "Features examples"
-        },
-        "sections": [
+        "c": [
           {
             "title": {
               "text": "Columns with icons"
             },
             "icon": {
               "name": "collection",
+              "src":"/",
               "size": "1em"
             },
             "cards": [
@@ -512,13 +510,21 @@
           }
         ]
       }
-    ],
-
-    "bgColor": {
-      "r": 200,
-      "g": 200,
-      "b": 200,
-      "a": 1
+    ],   
+     "style": {
+      "display": "",
+      "alignItems": "",
+      "justifyContent": "",
+      "width": "100",
+      "height": "600",
+      "padding": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "backgroundColor": "#a84d4d",
+      "backgroundImage": "/landing.jpg"
     }
   },
   {
