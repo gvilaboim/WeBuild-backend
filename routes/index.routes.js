@@ -19,7 +19,7 @@ router.get('/', isAuthenticated, (req, res, next) => {
 
 router.get('/user/:id', isAuthenticated, async (req, res, next) => {
   const { id } = req.params
-  const UserFounded = await User.findById(id).populate("plan")
+  const UserFounded = await User.findById(id).populate('plan')
   res.json(UserFounded)
 })
 
@@ -64,48 +64,41 @@ router.get('/websites/get-all', isAuthenticated, async (req, res, next) => {
   res.status(200).json(foundWebsites)
 })
 
+router.get(
+  '/websites/publicview/:username/:sitename',
+  async (req, res, next) => {
+    const { username, sitename } = req.params
+    if (username && sitename) {
+      //Find with username and Sitename
 
-
-
-router.get('/websites/publicview/:username/:sitename', async (req, res, next) => {
-  const { username , sitename } = req.params
-  if (username && sitename ) {
-
-    //Find with username and Sitename
-
-    User.findOne({ username })
-    .then(user => {
-   
-      Website.findOne({user: user._id , name : sitename })
-      .populate('navbar')
-      .populate('footer')
-      .populate({
-        path: 'sections',
-        populate: {
-          path: 'subsections',
-          populate: {
-            path: 'components',
-            model: 'Component',
-          },
-        },
-      })
-      .then((foundWebsite) => {
-        res.status(200).json(foundWebsite)
-      })
-      .catch((err) => console.log(err))
-
-    })
-    .catch(error => {
-      console.error(error);
-    });
-
-   
-  } else {
-    console.log('something goes wrong ')
+      User.findOne({ username })
+        .then((user) => {
+          Website.findOne({ user: user._id, name: sitename })
+            .populate('navbar')
+            .populate('footer')
+            .populate({
+              path: 'sections',
+              populate: {
+                path: 'subsections',
+                populate: {
+                  path: 'components',
+                  model: 'Component',
+                },
+              },
+            })
+            .then((foundWebsite) => {
+              res.status(200).json(foundWebsite)
+            })
+            .catch((err) => console.log(err))
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    } else {
+      console.log('something goes wrong ')
+    }
   }
-})
-
-
+)
 
 router.get('/websites/:id', isAuthenticated, async (req, res, next) => {
   const { id } = req.params
@@ -131,11 +124,6 @@ router.get('/websites/:id', isAuthenticated, async (req, res, next) => {
     console.log('id is undefined')
   }
 })
-
-
-
-
-
 
 router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
   const {
@@ -272,7 +260,6 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
       res.status(200).json(updatedWebsite)
     }
     if (componentToEdit) {
-      
       const updatedComponent = await Component.findByIdAndUpdate(
         componentToEdit.id,
         {
@@ -281,8 +268,8 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
           },
         },
         { new: true }
-        )
-        console.log(componentToEdit.data, updatedComponent)
+      )
+      console.log(componentToEdit.data, updatedComponent)
 
       const updatedWebsite = await Website.findById(id)
         .populate('navbar')
@@ -435,32 +422,40 @@ router.put(
 
 //COMPONENT EDIT
 router.put(
-  '/websites/components/edit/',
+  '/websites/:id/components/edit/',
   isAuthenticated,
   async (req, res, next) => {
     const { componentData } = req.body
-    console.log(componentData._id)
+    const { id } = req.params
 
-    console.log(componentData)
-    Component.findByIdAndUpdate(componentData._id, {
-      type: componentData.type,
-      navLinks: componentData.navLinks,
-      name: componentData.name,
-      category: componentData.category,
-      layout: componentData.layout,
-      bgColor: componentData.bgColor,
-      text: componentData.text,
-      border: componentData.border,
-      padding: componentData.padding,
-      style: componentData.style,
-    })
-      .then((response) => {
-        res.status(200).json(response)
-      })
-      .catch((error) => {
-        console.error(error)
-        res.status(500).json({ error: 'Failed to update component' })
-      })
+    try {
+      const updatedComponent = await Component.findByIdAndUpdate(
+        componentData._id,
+        {
+          style: componentData.style,
+        },
+        { new: true }
+      )
+
+      const updatedWebsite = await Website.findById(id)
+        .populate('navbar')
+        .populate('footer')
+        .populate({
+          path: 'sections',
+          populate: {
+            path: 'subsections',
+            populate: {
+              path: 'components',
+              model: 'Component',
+            },
+          },
+        })
+
+        console.log(updatedWebsite)
+      res.status(200).json({ updatedWebsite, updatedComponent })
+    } catch (error) {
+      res.status(500).json({ message: error.message })
+    }
   }
 )
 
@@ -529,49 +524,42 @@ router.get(
   }
 )
 
-router.post("/update-user-plan",  isAuthenticated, async (req, res) => {
+router.post('/update-user-plan', isAuthenticated, async (req, res) => {
   try {
+    const { userId, planId } = req.body
+    const user = await User.findById(userId)
+    user.plan = planId
+    await user.save()
+    res.json({ status: 'success', userId: userId })
+  } catch (e) {
+    console.log(e)
+  }
+})
 
-  
-  const { userId, planId } = req.body;
-  const user = await User.findById(userId);
-  user.plan = planId;
-  await user.save();
-  res.json({ status: "success" , userId: userId});
-}
-catch(e)
-{
-  console.log(e)
-}
-});
+router.put('/settings/:id', isAuthenticated, async (req, res) => {
+  console.log('INSIDE PUTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT')
+  const { id } = req.params
+  const { userInfo } = req.body
+  console.log(userInfo)
 
-
-
-router.put("/settings/:id", isAuthenticated,async (req, res) => {
-  console.log("INSIDE PUTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-  const { id } = req.params;
-  const { userInfo } = req.body;
-  console.log(userInfo);
-  
   User.findById(id)
-    .then(user => {
-      user.email = userInfo.email; // Use dot notation to set userInfo property
+    .then((user) => {
+      user.email = userInfo.email // Use dot notation to set userInfo property
       user.name = userInfo.name
       user.username = userInfo.username
 
-      return user.save();
+      return user.save()
     })
-    .then(response => {
-      console.log(response);
-      res.status(200).json({ status: "success" });
+    .then((response) => {
+      console.log(response)
+      res.status(200).json({ status: 'success' })
     })
-    .catch(error => {
-      console.error(error);
-      res.status(500).json({ error: "An error occurred while updating the user settings." });
-    });
-});
-
-
-
+    .catch((error) => {
+      console.error(error)
+      res
+        .status(500)
+        .json({ error: 'An error occurred while updating the user settings.' })
+    })
+})
 
 module.exports = router

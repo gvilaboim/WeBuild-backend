@@ -4,59 +4,23 @@
     "name": "navbar",
     "category": "navbar",
     "brand": {
-      "text": "Your Brand",
-      "layout": {
-        "x": 0,
-        "y": 0,
-        "w": 4,
-        "h": 2
-      }
+      "text": "Your Brand"
     },
     "navLinks": [
       {
-        "text": "Home",
-        "layout": {
-          "x": 4,
-          "y": 0,
-          "w": 4,
-          "h": 2
-        }
+        "text": "Home"
       },
       {
-        "text": "About",
-        "layout": {
-          "x": 8,
-          "y": 0,
-          "w": 4,
-          "h": 2
-        }
+        "text": "About"
       },
       {
-        "text": "Jobs",
-        "layout": {
-          "x": 12,
-          "y": 0,
-          "w": 4,
-          "h": 2
-        }
+        "text": "Jobs"
       },
       {
-        "text": "Contacts",
-        "layout": {
-          "x": 16,
-          "y": 0,
-          "w": 4,
-          "h": 2
-        }
+        "text": "Contacts"
       },
       {
-        "text": "Products",
-        "layout": {
-          "x": 20,
-          "y": 0,
-          "w": 4,
-          "h": 2
-        }
+        "text": "Products"
       }
     ],
     "bgColor": {
@@ -98,20 +62,15 @@
       "display": "flex",
       "alignItems": "center",
       "justifyContent": "space-around",
-      "widthPercentage": "100",
-      "heightPx": "600",
-      "layout": {
-        "x": 0,
-        "y": 0,
-        "w": 50,
-        "h": 100
+      "width": "100",
+      "height": "600",
+      "padding": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
       },
-      "backgroundColor": {
-        "r": 255,
-        "g": 255,
-        "b": 1,
-        "a": 1
-      },
+      "backgroundColor": "#a84d4d",
       "backgroundImage": "/landing.jpg"
     }
   },
@@ -131,23 +90,12 @@
         "left": 20
       },
       "borderRadius": "5px"
-    },
-    "layout": {
-      "x": 0,
-      "y": 0,
-      "w": 6,
-      "h": 1
     }
   },
   {
     "type": "body",
     "name": "main-content",
-    "layout": {
-      "x": 0,
-      "y": 0,
-      "w": 50,
-      "h": 100
-    },
+
     "bgColor": {
       "r": 240,
       "g": 240,
@@ -166,12 +114,6 @@
       "width": 500,
       "height": 300,
       "borderRadius": "10px"
-    },
-    "layout": {
-      "x": 0,
-      "y": 0,
-      "w": 6,
-      "h": 3
     }
   },
   {
@@ -184,23 +126,12 @@
       "color": "#000",
       "fontSize": "1.2em",
       "fontWeight": "normal"
-    },
-    "layout": {
-      "x": 0,
-      "y": 0,
-      "w": 6,
-      "h": 3
     }
   },
   {
     "type": "body",
     "name": "testimonials",
-    "layout": {
-      "x": 0,
-      "y": 0,
-      "w": 50,
-      "h": 100
-    },
+
     "bgColor": {
       "r": 210,
       "g": 210,
@@ -317,12 +248,7 @@
         ]
       }
     ],
-    "layout": {
-      "x": 0,
-      "y": 0,
-      "w": 50,
-      "h": 100
-    },
+
     "bgColor": {
       "r": 200,
       "g": 200,
@@ -416,12 +342,7 @@
         ]
       }
     ],
-    "layout": {
-      "x": 0,
-      "y": 0,
-      "w": 50,
-      "h": 100
-    },
+
     "bgColor": {
       "r": 150,
       "g": 150,
@@ -592,12 +513,7 @@
         ]
       }
     ],
-    "layout": {
-      "x": 0,
-      "y": 0,
-      "w": 50,
-      "h": 100
-    },
+
     "bgColor": {
       "r": 200,
       "g": 200,
@@ -658,12 +574,7 @@
         ]
       }
     ],
-    "layout": {
-      "x": 0,
-      "y": 0,
-      "w": 50,
-      "h": 100
-    },
+
     "bgColor": {
       "r": 200,
       "g": 200,
@@ -700,12 +611,7 @@
         ]
       }
     ],
-    "layout": {
-      "x": 0,
-      "y": 0,
-      "w": 50,
-      "h": 100
-    },
+
     "bgColor": {
       "r": 200,
       "g": 200,
@@ -720,7 +626,7 @@
     "items": [
       {
         "title": {
-          "text": "Oh yeah, it’s that good. See for yourself."
+          "text": "Oh yeah, it's that good. See for yourself."
         },
         "cards": [
           {
@@ -738,12 +644,7 @@
         ]
       }
     ],
-    "layout": {
-      "x": 0,
-      "y": 0,
-      "w": 50,
-      "h": 100
-    },
+
     "bgColor": {
       "r": 255,
       "g": 255,
