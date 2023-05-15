@@ -463,7 +463,7 @@
     "category": "featuresA",
     "items": [
       {
-        "c": [
+        "content": [
           {
             "title": {
               "text": "Columns with icons"
@@ -517,13 +517,8 @@
           }
         ]
       }
-<<<<<<< HEAD
-    ],   
-     "style": {
-=======
     ],
     "style": {
->>>>>>> 07e63393d0db6ab4a34b0565a20c4eeaf7adc4fa
       "display": "",
       "alignItems": "",
       "justifyContent": "",
@@ -535,10 +530,6 @@
         "bottom": 0,
         "left": 0
       },
-<<<<<<< HEAD
-      "backgroundColor": "#a84d4d",
-      "backgroundImage": "/landing.jpg"
-=======
       "backgroundColor": "#A84D4D",
       "backgroundImage": "/landing.jpg"
     },
@@ -548,7 +539,6 @@
       "g": 200,
       "b": 200,
       "a": 1
->>>>>>> 07e63393d0db6ab4a34b0565a20c4eeaf7adc4fa
     }
   },
   {
