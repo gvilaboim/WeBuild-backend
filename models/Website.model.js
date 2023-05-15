@@ -19,11 +19,7 @@ const websiteSchema = new Schema(
     category: {
       type: String,
     },
-    // url: {
-    //   type: String,
-    //   required: true,
-    //   unique: true,
-    // },
+
     navbar: {
       type: [{ type: Schema.Types.ObjectId, ref: 'Component' }],
     },
@@ -40,6 +36,7 @@ const websiteSchema = new Schema(
     footer: {
       type: [{ type: Schema.Types.ObjectId, ref: 'Component' }],
     },
+    isPublished: { type: Boolean, default: false },
   },
   {
     timestamps: true,

@@ -64,44 +64,46 @@ router.get('/websites/get-all', isAuthenticated, async (req, res, next) => {
   res.status(200).json(foundWebsites)
 })
 
-router.get(
-  '/websites/publicview/:username/:sitename',
-  async (req, res, next) => {
-    const { username, sitename } = req.params
-    if (username && sitename) {
-      //Find with username and Sitename
+router.get('/websites/public/:username/:sitename', async (req, res, next) => {
+  const { username, sitename } = req.params
 
-      User.findOne({ username })
-        .then((user) => {
-          Website.findOne({ user: user._id, name: sitename })
-            .populate('navbar')
-            .populate('footer')
-            .populate({
-              path: 'sections',
-              populate: {
-                path: 'subsections',
-                populate: {
-                  path: 'components',
-                  model: 'Component',
-                },
-              },
-            })
-            .then((foundWebsite) => {
-              res.status(200).json(foundWebsite)
-            })
-            .catch((err) => console.log(err))
+  if (username && sitename) {
+    try {
+      //Find with username and Sitename
+      const foundUser = await User.findOne({ name: username })
+      
+      console.log(username, sitename, foundUser)
+      const foundWebsite = await Website.findOne({
+        user: foundUser._id,
+        name: sitename,
+      })
+        .populate('navbar')
+        .populate('footer')
+        .populate({
+          path: 'sections',
+          populate: {
+            path: 'subsections',
+            populate: {
+              path: 'components',
+              model: 'Component',
+            },
+          },
         })
-        .catch((error) => {
-          console.error(error)
-        })
-    } else {
-      console.log('something goes wrong ')
-    }
+        console.log(foundWebsite)
+      if (foundWebsite.isPublished) {
+        res.status(200).json(foundWebsite)
+      } else {
+        res.status(500).json({ message: 'Not Found' })
+      }
+    } catch (error) {}
+  } else {
+    console.log('something goes wrong ')
   }
-)
+})
 
 router.get('/websites/:id', isAuthenticated, async (req, res, next) => {
   const { id } = req.params
+
   if (id) {
     Website.findById(id)
       .populate('navbar')
@@ -125,6 +127,25 @@ router.get('/websites/:id', isAuthenticated, async (req, res, next) => {
   }
 })
 
+// Make the website public
+router.put('/websites/publish/:id', isAuthenticated, async (req, res, next) => {
+  const { id } = req.params
+
+  try {
+    const website = await Website.findByIdAndUpdate(
+      id,
+      {
+        $set: { isPublished: true },
+      },
+      { new: true }
+    )
+
+    res.status(200).json(website)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+})
+
 router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
   const {
     siteData: {
@@ -139,7 +160,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
   const { id } = req.params
 
   try {
-    // Handles Subsections Increase or Decrease (later)
+    // Handles Subsections Increase or Decrease
     if (subsectionsIncrease && !droppedComponent) {
       //find the website to update
       const website = await Website.findById(id)
