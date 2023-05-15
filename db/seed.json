@@ -359,106 +359,6 @@
   },
   {
     "type": "body",
-    "name": "blog",
-    "category": "blog",
-    "items": [
-      {
-        "title": {
-          "text": "Featured Posts"
-        },
-        "cards": [
-          {
-            "header": {
-              "text": "Title of a longer featured blog post"
-            },
-            "body": {
-              "text": "Multiple lines of text that form the lede, informing new readers quickly and efficiently about what’s most interesting in this post’s contents.",
-              "link": {
-                "text": "Continue reading...",
-                "href": "#"
-              },
-              "bgColor": {
-                "r": 0,
-                "g": 0,
-                "b": 0,
-                "a": 1
-              },
-              "textColor": {
-                "r": 255,
-                "g": 255,
-                "b": 255,
-                "a": 1
-              }
-            },
-            "image": {
-              "src": "https://via.placeholder.com/200x250?text=Thumbnail",
-              "alt": "Thumbnail"
-            },
-            "categoryTag": {
-              "text": "World",
-              "bgColor": {
-                "r": 0,
-                "g": 123,
-                "b": 255,
-                "a": 1
-              },
-              "textColor": {
-                "r": 255,
-                "g": 255,
-                "b": 255,
-                "a": 1
-              }
-            }
-          },
-          {
-            "header": {
-              "text": "Post title"
-            },
-            "body": {
-              "text": "This is a wider card with supporting text below as a natural lead-in to additional content.",
-              "link": {
-                "text": "Continue reading...",
-                "href": "#"
-              },
-              "bgColor": {
-                "r": 255,
-                "g": 255,
-                "b": 255,
-                "a": 1
-              },
-              "textColor": {
-                "r": 0,
-                "g": 0,
-                "b": 0,
-                "a": 1
-              }
-            },
-            "image": {
-              "src": "https://via.placeholder.com/200x250?text=Thumbnail",
-              "alt": "Thumbnail"
-            },
-            "categoryTag": {
-              "text": "Design",
-              "bgColor": {
-                "r": 40,
-                "g": 167,
-                "b": 69,
-                "a": 1
-              },
-              "textColor": {
-                "r": 255,
-                "g": 255,
-                "b": 255,
-                "a": 1
-              }
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "body",
     "name": "featuresA",
     "category": "featuresA",
     "items": [
@@ -531,7 +431,7 @@
         "left": 0
       },
       "backgroundColor": "#A84D4D",
-      "backgroundImage": "/landing.jpg"
+      "backgroundImage": ""
     },
 
     "bgColor": {
@@ -547,14 +447,17 @@
     "category": "featuresB",
     "items": [
       {
-        "title": {
-          "text": "Left-aligned title explaining these awesome features"
-        },
-        "sections": [
+       
+        "content": [
           {
-            "icon": {
-              "name": "collection",
-              "size": "1em"
+            "title": {
+              "text": "Left-aligned title explaining these awesome features"
+            },
+            "description": {
+              "text": "Paragraph of text beneath the heading to explain the heading."
+            },
+            "button": {
+              "text": "MyButton"
             },
             "cards": [
               {
@@ -594,7 +497,21 @@
         ]
       }
     ],
-
+    "style": {
+      "display": "",
+      "alignItems": "",
+      "justifyContent": "",
+      "width": "100",
+      "height": "600",
+      "padding": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "backgroundColor": "#A84D4D",
+      "backgroundImage": ""
+    },
     "bgColor": {
       "r": 200,
       "g": 200,
@@ -608,30 +525,39 @@
     "category": "imageRight",
     "items": [
       {
-        "title": {
-          "text": "Columns with images"
-        },
-        "icon": {
-          "name": "image",
-          "size": "1em"
-        },
-        "cards": [
-          {
-            "title": {
-              "text": "First featurette heading."
-            },
-            "description": {
-              "text": "Some great placeholder content for the first featurette here. Imagine some exciting prose here."
-            },
-            "image": {
-              "src": "https://via.placeholder.com/500x500",
-              "alt": "Placeholder: 500x500"
+        "content": [ {
+          "cards": [
+            {
+              "title": {
+                "text": "First featurette heading."
+              },
+              "description": {
+                "text": "Some great placeholder content for the first featurette here. Imagine some exciting prose here."
+              },
+              "image": {
+                "src": "https://via.placeholder.com/500x500",
+                "alt": "Placeholder: 500x500"
+              }
             }
-          }
-        ]
+          ]
+      }]
       }
     ],
-
+    "style": {
+      "display": "",
+      "alignItems": "",
+      "justifyContent": "",
+      "width": "100",
+      "height": "600",
+      "padding": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "backgroundColor": "#A84D4D",
+      "backgroundImage": ""
+    },
     "bgColor": {
       "r": 200,
       "g": 200,
@@ -645,26 +571,39 @@
     "category": "imageLeft",
     "items": [
       {
-        "title": {
-          "text": "Oh yeah, it's that good. See for yourself."
-        },
-        "cards": [
-          {
-            "title": {
-              "text": "Another featurette?"
-            },
-            "description": {
-              "text": "Of course. More placeholder content here to give you an idea of how this layout would work with some actual real-world content in place."
-            },
-            "image": {
-              "src": "https://via.placeholder.com/500x500",
-              "alt": "Placeholder: 500x500"
+        "content": [ {
+          "cards": [
+            {
+              "title": {
+                "text": "First featurette heading."
+              },
+              "description": {
+                "text": "Some great placeholder content for the first featurette here. Imagine some exciting prose here."
+              },
+              "image": {
+                "src": "https://via.placeholder.com/500x500",
+                "alt": "Placeholder: 500x500"
+              }
             }
-          }
-        ]
+          ]
+      }]
       }
     ],
-
+    "style": {
+      "display": "",
+      "alignItems": "",
+      "justifyContent": "",
+      "width": "100",
+      "height": "600",
+      "padding": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "backgroundColor": "#A84D4D",
+      "backgroundImage": ""
+    },
     "bgColor": {
       "r": 255,
       "g": 255,

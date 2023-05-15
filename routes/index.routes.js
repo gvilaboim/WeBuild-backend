@@ -280,7 +280,8 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
 
       res.status(200).json(updatedWebsite)
     }
-    if (componentToEdit) {
+    if (componentToEdit  && componentToEdit.data) {
+      console.log("componentToEdit : ", componentToEdit)
       const updatedComponent = await Component.findByIdAndUpdate(
         componentToEdit.id,
         {
@@ -448,8 +449,6 @@ router.put(
   async (req, res, next) => {
     const { componentData } = req.body
     const { id } = req.params
-
-    consol.log(componentData)
 
     try {
       const updatedComponent = await Component.findByIdAndUpdate(
