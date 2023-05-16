@@ -153,15 +153,19 @@
     "items": [
       {
         "title": {
-          "text": "Pricing"
+          "text": "Pricing",
+          "color": "#000000"
         },
         "subtitle": {
-          "text": "Quickly build an effective pricing table for your potential customers with this Bootstrap example. It's built with default Bootstrap components and utilities with little customization."
+          "text": "Quickly build an effective pricing table for your potential customers with this Bootstrap example. It's built with default Bootstrap components and utilities with little customization.",
+          "color": "#000000"
         },
         "cards": [
           {
+            "id": "0",
             "header": {
-              "text": "Free"
+              "text": "Free",
+              "color": "#000000"
             },
             "body": {
               "price": {
@@ -186,13 +190,15 @@
               "button": {
                 "text": "Sign up for free",
                 "href": "#",
-                "variant": "outline-primary"
+                "backgroundColor": "#11ff55"
               }
             }
           },
           {
+            "id": "1",
             "header": {
-              "text": "Pro"
+              "text": "Pro",
+              "color": "#000000"
             },
             "body": {
               "price": {
@@ -217,13 +223,15 @@
               "button": {
                 "text": "Get started",
                 "href": "#",
-                "variant": "primary"
+                "backgroundColor": "#223344"
               }
             }
           },
           {
+            "id": "2",
             "header": {
-              "text": "Enterprise"
+              "text": "Enterprise",
+              "color": "#000000"
             },
             "body": {
               "price": {
@@ -248,19 +256,27 @@
               "button": {
                 "text": "Contact us",
                 "href": "#",
-                "variant": "primary"
+                "backgroundColor": "#223344"
               }
             }
           }
         ]
       }
     ],
-
-    "bgColor": {
-      "r": 200,
-      "g": 200,
-      "b": 200,
-      "a": 1
+    "style": {
+      "display": "flex",
+      "alignItems": "center",
+      "justifyContent": "space-around",
+      "width": "100",
+      "height": "600",
+      "padding": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "backgroundColor": "#a84d4d",
+      "backgroundImage": ""
     }
   },
   {
@@ -370,7 +386,7 @@
             },
             "icon": {
               "name": "collection",
-              "src":"/",
+              "src": "/",
               "size": "1em"
             },
             "cards": [
@@ -447,7 +463,6 @@
     "category": "featuresB",
     "items": [
       {
-       
         "content": [
           {
             "title": {
@@ -525,22 +540,24 @@
     "category": "imageRight",
     "items": [
       {
-        "content": [ {
-          "cards": [
-            {
-              "title": {
-                "text": "First featurette heading."
-              },
-              "description": {
-                "text": "Some great placeholder content for the first featurette here. Imagine some exciting prose here."
-              },
-              "image": {
-                "src": "https://via.placeholder.com/500x500",
-                "alt": "Placeholder: 500x500"
+        "content": [
+          {
+            "cards": [
+              {
+                "title": {
+                  "text": "First featurette heading."
+                },
+                "description": {
+                  "text": "Some great placeholder content for the first featurette here. Imagine some exciting prose here."
+                },
+                "image": {
+                  "src": "https://via.placeholder.com/500x500",
+                  "alt": "Placeholder: 500x500"
+                }
               }
-            }
-          ]
-      }]
+            ]
+          }
+        ]
       }
     ],
     "style": {
@@ -571,22 +588,24 @@
     "category": "imageLeft",
     "items": [
       {
-        "content": [ {
-          "cards": [
-            {
-              "title": {
-                "text": "First featurette heading."
-              },
-              "description": {
-                "text": "Some great placeholder content for the first featurette here. Imagine some exciting prose here."
-              },
-              "image": {
-                "src": "https://via.placeholder.com/500x500",
-                "alt": "Placeholder: 500x500"
+        "content": [
+          {
+            "cards": [
+              {
+                "title": {
+                  "text": "First featurette heading."
+                },
+                "description": {
+                  "text": "Some great placeholder content for the first featurette here. Imagine some exciting prose here."
+                },
+                "image": {
+                  "src": "https://via.placeholder.com/500x500",
+                  "alt": "Placeholder: 500x500"
+                }
               }
-            }
-          ]
-      }]
+            ]
+          }
+        ]
       }
     ],
     "style": {
