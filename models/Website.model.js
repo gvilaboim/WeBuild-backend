@@ -1,5 +1,3 @@
-// models/Website.js
-
 const mongoose = require('mongoose')
 const { Schema, model } = mongoose
 
@@ -19,7 +17,16 @@ const websiteSchema = new Schema(
     category: {
       type: String,
     },
-
+    statistics: {
+      views: {
+        type: Number,
+        default: 0,
+      },
+      locations: {
+        type: [String],
+        default: [],
+      },
+    },
     navbar: {
       type: [{ type: Schema.Types.ObjectId, ref: 'Component' }],
     },
