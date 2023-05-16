@@ -3,10 +3,10 @@ const { isAuthenticated } = require('../middleware/jwt.middleware')
 const Component = require('../models/Component.model')
 const DefaultComponent = require('../models/DefaultComponent.model')
 const Plans = require('../models/Plans.model')
-const Website = require('../models/Website.model')
 const User = require('../models/User.model')
 const Section = require('../models/Section.model')
 const { default: mongoose } = require('mongoose')
+const { Website, Visitor } =  require('../models/Website.model')
 
 const router = express.Router()
 
@@ -570,26 +570,39 @@ router.put('/settings/:id', isAuthenticated, async (req, res) => {
 
 router.put('/dashboard/statistics', isAuthenticated, async (req, res, next) => {
   const { StatisticsObject } = req.body;
-  const { county } = StatisticsObject.location.address;
-  console.log(StatisticsObject._id)
-  console.log(county)
-  Website.findByIdAndUpdate(
-    StatisticsObject._id,
-    {
-      $inc: { 'statistics.views': StatisticsObject.views },
-      $addToSet: { 'statistics.locations': county },
-    },
-    { new: true }
-  )
-    .then((updatedWebsite) => {
-      res.status(200).json({ status: 'success' })    })
-    .catch((error) => {
-      console.error(error)
-      res
-        .status(500)
-        .json({ error: 'An error occurred while updating the user settings.' })
+  const { county , contry , country_code} = StatisticsObject.location.address;
+  try {
+    const website = await Website.findById(StatisticsObject._id);
+    const visitor = new Visitor({
+      website: website._id,
+      location: county,
+      contry: contry,
+      country_code: country_code,
+      views: StatisticsObject.views || 0,
     });
+
+    website.visitors.push(visitor);
+    await website.save();
+
+    res.status(200).json({ status: 'success' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while updating the user settings.' });
+  }
 });
 
+router.get('/dashboard/statistics/:id', isAuthenticated, async (req, res, next) => {
+  const { id } = req.params
+  try{
+    const data = await Website.findById(id).populate('visitors')
+    res.json(data)
+  }
+ catch(e)
+ {
+  console.log(e)
+  res.status(500).json({ error: 'An error occurred while updating the user settings.' });
+
+ }
+})
 
 module.exports = router

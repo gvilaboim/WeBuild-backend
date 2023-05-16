@@ -4,6 +4,34 @@ const { Schema, model } = mongoose
 const Component = require('./Component.model')
 const Section = require('./Section.model')
 
+const visitorSchema = new Schema(
+  {
+    website: {
+      type: Schema.Types.ObjectId,
+      ref: 'Website',
+    },
+    location: {
+      type: String,
+    },
+    country: {
+      type: String,
+    },
+    country_code: {
+      type: String,
+
+    },
+    views: {
+      type: Number,
+      default: 0,
+    },
+  },
+  {
+    timestamps: true,
+  }
+)
+
+const Visitor = model('Visitor', visitorSchema)
+
 const websiteSchema = new Schema(
   {
     user: {
@@ -17,15 +45,9 @@ const websiteSchema = new Schema(
     category: {
       type: String,
     },
-    statistics: {
-      views: {
-        type: Number,
-        default: 0,
-      },
-      locations: {
-        type: [String],
-        default: [],
-      },
+    visitors: {
+      type: [visitorSchema],
+      default: [],
     },
     navbar: {
       type: [{ type: Schema.Types.ObjectId, ref: 'Component' }],
@@ -52,4 +74,4 @@ const websiteSchema = new Schema(
 
 const Website = model('Website', websiteSchema)
 
-module.exports = Website
+module.exports = { Website, Visitor }
