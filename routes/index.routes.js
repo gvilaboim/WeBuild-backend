@@ -72,7 +72,6 @@ router.get('/websites/public/:username/:sitename', async (req, res, next) => {
       //Find with username and Sitename
       const foundUser = await User.findOne({ name: username })
       
-      console.log(username, sitename, foundUser)
       const foundWebsite = await Website.findOne({
         user: foundUser._id,
         name: sitename,
@@ -89,7 +88,6 @@ router.get('/websites/public/:username/:sitename', async (req, res, next) => {
             },
           },
         })
-        console.log(foundWebsite)
       if (foundWebsite.isPublished) {
         res.status(200).json(foundWebsite)
       } else {
@@ -251,7 +249,6 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     }
 
     if (droppedComponent && droppedComponent.type === 'body') {
-      console.log(droppedComponent)
       // create a new component object from the droppedComponent data
       const newComponent = await Component.create(droppedComponent)
 
@@ -281,7 +278,6 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
       res.status(200).json(updatedWebsite)
     }
     if (componentToEdit  && componentToEdit.data) {
-      console.log("componentToEdit : ", componentToEdit)
       const updatedComponent = await Component.findByIdAndUpdate(
         componentToEdit.id,
         {
@@ -291,7 +287,6 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
         },
         { new: true }
       )
-      console.log(componentToEdit.data, updatedComponent)
 
       const updatedWebsite = await Website.findById(id)
         .populate('navbar')
@@ -421,7 +416,6 @@ router.put(
       // create a new Section object
       const newSubsection = { components: [] }
       const newSection = await Section.create({ subsections: newSubsection })
-      console.log(newSection)
 
       // insert the new Section object after the clicked section
       website.sections.splice(sectionIndex + 1, 0, newSection)
@@ -482,7 +476,6 @@ router.put(
 
 router.get('/plans/all/', isAuthenticated, async (req, res, next) => {
   const foundPlans = await Plans.find()
-  console.log('here')
   res.status(200).json(foundPlans)
 })
 
@@ -490,13 +483,11 @@ router.get('/plans/:id', isAuthenticated, async (req, res, next) => {
   const { id } = req.params
 
   const foundPlans = await Plans.findById(id)
-  console.log('here')
   res.status(200).json(foundPlans)
 })
 
 router.post('/create-checkout-session', isAuthenticated, async (req, res) => {
   const { details } = req.body
-  console.log('DETAils:', details)
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
@@ -522,7 +513,6 @@ router.post('/create-checkout-session', isAuthenticated, async (req, res) => {
     },
   })
 
-  console.log(session.id)
   res.json({ url: session.url, id: session.id })
 })
 
@@ -531,13 +521,11 @@ router.get(
   isAuthenticated,
   async (req, res) => {
     const { sessionId } = req.params
-    console.log('get-payment-details ID :', sessionId)
     const session = await stripe.checkout.sessions.retrieve(sessionId)
     const paymentIntent = await stripe.paymentIntents.retrieve(
       session.payment_intent
     )
     const paymentId = paymentIntent.id
-    console.log('SESSION ->', session)
     const planId = session.metadata.planId
     const userId = session.metadata.userId
 
@@ -558,10 +546,8 @@ router.post('/update-user-plan', isAuthenticated, async (req, res) => {
 })
 
 router.put('/settings/:id', isAuthenticated, async (req, res) => {
-  console.log('INSIDE PUTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT')
   const { id } = req.params
   const { userInfo } = req.body
-  console.log(userInfo)
 
   User.findById(id)
     .then((user) => {
@@ -572,7 +558,6 @@ router.put('/settings/:id', isAuthenticated, async (req, res) => {
       return user.save()
     })
     .then((response) => {
-      console.log(response)
       res.status(200).json({ status: 'success' })
     })
     .catch((error) => {
@@ -582,5 +567,29 @@ router.put('/settings/:id', isAuthenticated, async (req, res) => {
         .json({ error: 'An error occurred while updating the user settings.' })
     })
 })
+
+router.put('/dashboard/statistics', isAuthenticated, async (req, res, next) => {
+  const { StatisticsObject } = req.body;
+  const { county } = StatisticsObject.location.address;
+  console.log(StatisticsObject._id)
+  console.log(county)
+  Website.findByIdAndUpdate(
+    StatisticsObject._id,
+    {
+      $inc: { 'statistics.views': StatisticsObject.views },
+      $addToSet: { 'statistics.locations': county },
+    },
+    { new: true }
+  )
+    .then((updatedWebsite) => {
+      res.status(200).json({ status: 'success' })    })
+    .catch((error) => {
+      console.error(error)
+      res
+        .status(500)
+        .json({ error: 'An error occurred while updating the user settings.' })
+    });
+});
+
 
 module.exports = router
