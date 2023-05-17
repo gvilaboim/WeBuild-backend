@@ -6,7 +6,7 @@ const Plans = require('../models/Plans.model')
 const User = require('../models/User.model')
 const Section = require('../models/Section.model')
 const { default: mongoose } = require('mongoose')
-const { Website, Visitor } =  require('../models/Website.model')
+const { Website, Visitor } = require('../models/Website.model')
 
 const router = express.Router()
 
@@ -59,8 +59,14 @@ router.post('/websites/create', isAuthenticated, async (req, res, next) => {
   }
 })
 
-router.get('/websites/get-all', isAuthenticated, async (req, res, next) => {
-  const foundWebsites = await Website.find()
+router.get('/websites/community', isAuthenticated, async (req, res, next) => {
+  const foundWebsites = await Website.find({isPublished: true}).populate('user')
+  res.status(200).json(foundWebsites)
+})
+
+router.get('/websites/user/:id', isAuthenticated, async (req, res, next) => {
+  const { id } = req.params
+  const foundWebsites = await Website.find({ user: id }).populate('user')
   res.status(200).json(foundWebsites)
 })
 
@@ -71,7 +77,7 @@ router.get('/websites/public/:username/:sitename', async (req, res, next) => {
     try {
       //Find with username and Sitename
       const foundUser = await User.findOne({ name: username })
-      
+
       const foundWebsite = await Website.findOne({
         user: foundUser._id,
         name: sitename,
@@ -99,6 +105,25 @@ router.get('/websites/public/:username/:sitename', async (req, res, next) => {
   }
 })
 
+// Make the website public
+router.put('/websites/publish/:id', isAuthenticated, async (req, res, next) => {
+  const { id } = req.params
+
+  try {
+    const website = await Website.findByIdAndUpdate(
+      id,
+      {
+        $set: { isPublished: true },
+      },
+      { new: true }
+    )
+
+    res.status(200).json(website)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+})
+
 router.get('/websites/:id', isAuthenticated, async (req, res, next) => {
   const { id } = req.params
 
@@ -122,25 +147,6 @@ router.get('/websites/:id', isAuthenticated, async (req, res, next) => {
       .catch((err) => console.log(err))
   } else {
     console.log('id is undefined')
-  }
-})
-
-// Make the website public
-router.put('/websites/publish/:id', isAuthenticated, async (req, res, next) => {
-  const { id } = req.params
-
-  try {
-    const website = await Website.findByIdAndUpdate(
-      id,
-      {
-        $set: { isPublished: true },
-      },
-      { new: true }
-    )
-
-    res.status(200).json(website)
-  } catch (error) {
-    res.status(500).json(error)
   }
 })
 
@@ -277,7 +283,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
 
       res.status(200).json(updatedWebsite)
     }
-    if (componentToEdit  && componentToEdit.data) {
+    if (componentToEdit && componentToEdit.data) {
       const updatedComponent = await Component.findByIdAndUpdate(
         componentToEdit.id,
         {
@@ -569,40 +575,45 @@ router.put('/settings/:id', isAuthenticated, async (req, res) => {
 })
 
 router.put('/dashboard/statistics', isAuthenticated, async (req, res, next) => {
-  const { StatisticsObject } = req.body;
-  const { county , contry , country_code} = StatisticsObject.location.address;
+  const { StatisticsObject } = req.body
+  const { county, contry, country_code } = StatisticsObject.location.address
   try {
-    const website = await Website.findById(StatisticsObject._id);
+    const website = await Website.findById(StatisticsObject._id)
     const visitor = new Visitor({
       website: website._id,
       location: county,
       contry: contry,
       country_code: country_code,
       views: StatisticsObject.views || 0,
-    });
+    })
 
-    website.visitors.push(visitor);
-    await website.save();
+    website.visitors.push(visitor)
+    await website.save()
 
-    res.status(200).json({ status: 'success' });
+    res.status(200).json({ status: 'success' })
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'An error occurred while updating the user settings.' });
+    console.error(error)
+    res
+      .status(500)
+      .json({ error: 'An error occurred while updating the user settings.' })
   }
-});
-
-router.get('/dashboard/statistics/:id', isAuthenticated, async (req, res, next) => {
-  const { id } = req.params
-  try{
-    const data = await Website.findById(id).populate('visitors')
-    res.json(data)
-  }
- catch(e)
- {
-  console.log(e)
-  res.status(500).json({ error: 'An error occurred while updating the user settings.' });
-
- }
 })
+
+router.get(
+  '/dashboard/statistics/:id',
+  isAuthenticated,
+  async (req, res, next) => {
+    const { id } = req.params
+    try {
+      const data = await Website.findById(id).populate('visitors')
+      res.json(data)
+    } catch (e) {
+      console.log(e)
+      res
+        .status(500)
+        .json({ error: 'An error occurred while updating the user settings.' })
+    }
+  }
+)
 
 module.exports = router
