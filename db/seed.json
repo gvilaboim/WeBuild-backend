@@ -381,59 +381,70 @@
     "category": "featuresA",
     "items": [
       {
-        "content": [
-          {
-            "title": {
-              "text": "Columns with icons"
-            },
-            "icon": {
-              "name": "collection",
-              "src": "/",
-              "size": "1em"
-            },
-            "cards": [
-              {
-                "title": {
-                  "text": "Featured title"
-                },
-                "description": {
-                  "text": "Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words."
-                },
-                "button": {
-                  "text": "Call to action",
-                  "href": "#",
-                  "icon": "chevron-right"
-                }
+        "content": {
+          "title": {
+            "text": "Columns with icons",
+            "color": "#000000"
+          },
+          "icon": {
+            "name": "collection",
+            "src": "/",
+            "size": "1em"
+          },
+          "cards": [
+            {
+              "id": "0",
+              "title": {
+                "text": "Featured title",
+                "color": "#000000"
               },
-              {
-                "title": {
-                  "text": "Featured title 2"
-                },
-                "description": {
-                  "text": "Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words."
-                },
-                "button": {
-                  "text": "Call to action 2",
-                  "href": "#",
-                  "icon": "chevron-right"
-                }
+              "description": {
+                "text": "Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.",
+                "color": "#000000"
               },
-              {
-                "title": {
-                  "text": "Featured title 3"
-                },
-                "description": {
-                  "text": "Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words."
-                },
-                "button": {
-                  "text": "Call to action 3",
-                  "href": "#",
-                  "icon": "chevron-right"
-                }
+              "button": {
+                "text": "Call to action",
+                "href": "#",
+                "icon": "chevron-right",
+                "color": "#00FFFF"
               }
-            ]
-          }
-        ]
+            },
+            {
+              "id": "1",
+              "title": {
+                "text": "Featured title 2",
+                "color": "#000000"
+              },
+              "description": {
+                "text": "Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.",
+                "color": "#000000"
+              },
+              "button": {
+                "text": "Call to action 2",
+                "href": "#",
+                "icon": "chevron-right",
+                "color": "#00FFFF"
+              }
+            },
+            {
+              "id": "2",
+              "title": {
+                "text": "Featured title 3",
+                "color": "#000000"
+              },
+              "description": {
+                "text": "Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.",
+                "color": "#000000"
+              },
+              "button": {
+                "text": "Call to action 3",
+                "href": "#",
+                "icon": "chevron-right",
+                "color": "#00FFFF"
+              }
+            }
+          ]
+        }
       }
     ],
     "style": {
@@ -450,13 +461,6 @@
       },
       "backgroundColor": "#A84D4D",
       "backgroundImage": ""
-    },
-
-    "bgColor": {
-      "r": 200,
-      "g": 200,
-      "b": 200,
-      "a": 1
     }
   },
   {
@@ -465,53 +469,64 @@
     "category": "featuresB",
     "items": [
       {
-        "content": [
-          {
-            "title": {
-              "text": "Left-aligned title explaining these awesome features"
-            },
-            "description": {
-              "text": "Paragraph of text beneath the heading to explain the heading."
-            },
-            "button": {
-              "text": "MyButton"
-            },
-            "cards": [
-              {
-                "title": {
-                  "text": "Featured title"
-                },
-                "description": {
-                  "text": "Paragraph of text beneath the heading to explain the heading."
-                }
+        "content": {
+          "title": {
+            "text": "Left-aligned title explaining these awesome features",
+            "color": "#000000"
+          },
+          "description": {
+            "text": "Paragraph of text beneath the heading to explain the heading.",
+            "color": "#000000"
+          },
+          "button": {
+            "text": "MyButton",
+            "href": "#",
+            "backgroundColor": "00FFFF",
+            "color": "#000000"
+          },
+          "cards": [
+            {
+              "title": {
+                "text": "Featured title",
+                "color": "#000000"
               },
-              {
-                "title": {
-                  "text": "Featured title"
-                },
-                "description": {
-                  "text": "Paragraph of text beneath the heading to explain the heading."
-                }
-              },
-              {
-                "title": {
-                  "text": "Featured title"
-                },
-                "description": {
-                  "text": "Paragraph of text beneath the heading to explain the heading."
-                }
-              },
-              {
-                "title": {
-                  "text": "Featured title"
-                },
-                "description": {
-                  "text": "Paragraph of text beneath the heading to explain the heading."
-                }
+              "description": {
+                "text": "Paragraph of text beneath the heading to explain the heading.",
+                "color": "#000000"
               }
-            ]
-          }
-        ]
+            },
+            {
+              "title": {
+                "text": "Featured title",
+                "color": "#000000"
+              },
+              "description": {
+                "text": "Paragraph of text beneath the heading to explain the heading.",
+                "color": "#000000"
+              }
+            },
+            {
+              "title": {
+                "text": "Featured title",
+                "color": "#000000"
+              },
+              "description": {
+                "text": "Paragraph of text beneath the heading to explain the heading.",
+                "color": "#000000"
+              }
+            },
+            {
+              "title": {
+                "text": "Featured title",
+                "color": "#000000"
+              },
+              "description": {
+                "text": "Paragraph of text beneath the heading to explain the heading.",
+                "color": "#000000"
+              }
+            }
+          ]
+        }
       }
     ],
     "style": {
@@ -528,12 +543,6 @@
       },
       "backgroundColor": "#A84D4D",
       "backgroundImage": ""
-    },
-    "bgColor": {
-      "r": 200,
-      "g": 200,
-      "b": 200,
-      "a": 1
     }
   },
   {
