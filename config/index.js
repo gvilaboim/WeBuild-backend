@@ -10,14 +10,7 @@ module.exports = (app) => {
   app.set("trust proxy", 1);
 
   // Set up CORS to allow requests from the frontend application's domain
-  app.use(
-    cors({
-      origin: FRONTEND_URL,
-      methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-      allowedHeaders: ["Content-Type", "Authorization"],
-      credentials: true,
-    })
-  );
+  app.use(cors("*"));
 
   app.use(logger("dev"));
   app.use(express.json());
