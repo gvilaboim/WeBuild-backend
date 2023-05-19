@@ -7,7 +7,7 @@ const User = require('../models/User.model')
 const Section = require('../models/Section.model')
 const { default: mongoose } = require('mongoose')
 const { Website, Visitor } = require('../models/Website.model')
- 
+
 const router = express.Router()
 
 const app = express()
@@ -60,7 +60,7 @@ router.post('/websites/create', isAuthenticated, async (req, res, next) => {
 })
 
 router.get('/websites/community', isAuthenticated, async (req, res, next) => {
-  const foundWebsites = await Website.find({isPublished: true}).populate('user')
+  const foundWebsites = await Website.find({ isPublished: true }).populate('user')
   res.status(200).json(foundWebsites)
 })
 
@@ -99,7 +99,7 @@ router.get('/websites/public/:username/:sitename', async (req, res, next) => {
       } else {
         res.status(500).json({ message: 'Not Found' })
       }
-    } catch (error) {}
+    } catch (error) { }
   } else {
     console.log('something goes wrong ')
   }
@@ -451,13 +451,26 @@ router.put(
     const { id } = req.params
 
     try {
-      const updatedComponent = await Component.findByIdAndUpdate(
-        componentData._id,
-        {
-          style: componentData.style,
-        },
-        { new: true }
-      )
+      let updatedComponent
+
+      if (componentData.name === 'navbar') {
+        updatedComponent = await Component.findByIdAndUpdate(
+          componentData._id,
+          {
+            style: componentData.style,
+            navLinks: componentData.navLinks
+          },
+          { new: true }
+        )
+      } else {
+        updatedComponent = await Component.findByIdAndUpdate(
+          componentData._id,
+          {
+            style: componentData.style
+          },
+          { new: true }
+        )
+      }
 
       const updatedWebsite = await Website.findById(id)
         .populate('navbar')
@@ -475,6 +488,7 @@ router.put(
 
       res.status(200).json({ updatedWebsite, updatedComponent })
     } catch (error) {
+      console.log(error) // Add this line to log the error
       res.status(500).json({ message: error.message })
     }
   }
