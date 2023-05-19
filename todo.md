@@ -2,12 +2,14 @@
 
 ## Create Page
 # finish functionality
-- update form - check
+- update form - ✅
 - add/remove sections - Modal "are you sure?" - ✅
 - add/remove subsections - Modal "are you sure?" - ✅
-- add website background
+- add website background - 
 - add Section (reorder) - ✅
-- 
+- Navbar for free Plans
+- sort recently updated in backend
+
 # Dashboard
 
 ## Cloudinary
