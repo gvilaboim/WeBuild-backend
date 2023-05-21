@@ -60,7 +60,9 @@ router.post('/websites/create', isAuthenticated, async (req, res, next) => {
 })
 
 router.get('/websites/community', isAuthenticated, async (req, res, next) => {
-  const foundWebsites = await Website.find({ isPublished: true }).populate('user')
+  const foundWebsites = await Website.find({ isPublished: true }).populate(
+    'user'
+  )
   res.status(200).json(foundWebsites)
 })
 
@@ -99,7 +101,7 @@ router.get('/websites/public/:username/:sitename', async (req, res, next) => {
       } else {
         res.status(500).json({ message: 'Not Found' })
       }
-    } catch (error) { }
+    } catch (error) {}
   } else {
     console.log('something goes wrong ')
   }
@@ -458,7 +460,7 @@ router.put(
           componentData._id,
           {
             style: componentData.style,
-            navLinks: componentData.navLinks
+            navLinks: componentData.navLinks,
           },
           { new: true }
         )
@@ -466,7 +468,7 @@ router.put(
         updatedComponent = await Component.findByIdAndUpdate(
           componentData._id,
           {
-            style: componentData.style
+            style: componentData.style,
           },
           { new: true }
         )
