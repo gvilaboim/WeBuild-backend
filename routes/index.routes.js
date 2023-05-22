@@ -38,7 +38,7 @@ router.post('/websites/create', isAuthenticated, async (req, res, next) => {
     const user = new mongoose.Types.ObjectId(req.payload._id)
 
     // by default 3 empty sections are created
-    const sections = []
+    const sections = { home : [], about : [] , contacts : [] }
     for (let i = 0; i < 3; i++) {
       const section = await Section.create({
         renderOrder: i,
@@ -48,10 +48,51 @@ router.post('/websites/create', isAuthenticated, async (req, res, next) => {
           },
         ],
       })
-      sections.push(section)
+      sections.home.push(section)
     }
-    const newWebsite = await Website.create({ user, name, category, sections })
 
+    for (let i = 0; i < 3; i++) {
+      const section = await Section.create({
+        renderOrder: i,
+        subsections: [
+          {
+            components: [],
+          },
+        ],
+      })
+      sections.about.push(section)
+    }
+    for (let i = 0; i < 3; i++) {
+      const section = await Section.create({
+        renderOrder: i,
+        subsections: [
+          {
+            components: [],
+          },
+        ],
+      })
+      sections.contacts.push(section)
+    }
+
+    const pages = [
+      {
+        menu: 'Home',
+        sections: sections.home
+      },
+      {
+        menu: 'About',
+        sections:   sections.about
+      },
+      {
+        menu: 'Contacts',
+        sections: sections.contacts
+      }
+    ]
+
+    const newWebsite = await Website.create({ user, name, category, pages })
+
+    console.log(newWebsite.pages)
+    
     res.status(201).json(newWebsite)
   } catch (error) {
     console.error(error)
@@ -85,7 +126,7 @@ router.get('/websites/public/:username/:sitename', async (req, res, next) => {
         .populate('navbar')
         .populate('footer')
         .populate({
-          path: 'sections',
+          path: 'pages.sections',
           populate: {
             path: 'subsections',
             populate: {
@@ -126,13 +167,14 @@ router.put('/websites/publish/:id', isAuthenticated, async (req, res, next) => {
 
 router.get('/websites/:id', isAuthenticated, async (req, res, next) => {
   const { id } = req.params
-
+console.log("here")
   if (id) {
     Website.findById(id)
+      .populate('user')
       .populate('navbar')
       .populate('footer')
       .populate({
-        path: 'sections',
+        path: 'pages.sections',
         populate: {
           path: 'subsections',
           populate: {
@@ -141,6 +183,7 @@ router.get('/websites/:id', isAuthenticated, async (req, res, next) => {
           },
         },
       })
+      
       .then((foundWebsite) => {
         res.status(200).json(foundWebsite)
       })
@@ -151,8 +194,13 @@ router.get('/websites/:id', isAuthenticated, async (req, res, next) => {
 })
 
 router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
+
+//Agora terá que vir para aqui uma sections dentro da page que tenha um nome no menu
+// menu ="HOME"
+//Section = secti on;
   const {
     siteData: {
+      menu,
       droppedComponent,
       sectionIndex,
       subsectionIndex,
@@ -161,6 +209,8 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     },
   } = req.body
 
+  console.log("menu BACKEND m ", menu)
+  
   const { id } = req.params
 
   try {
@@ -171,7 +221,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
         .populate('footer')
         .populate('navbar')
         .populate({
-          path: 'sections',
+          path: 'pages.sections',
           populate: {
             path: 'subsections',
             populate: {
@@ -182,7 +232,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
         })
 
       // Find the Section object within the sections array
-      const section = website.sections[sectionIndex]
+      const section = website.pages[menu].sections[sectionIndex]
       // Check how many Subsection objects are currently in the subsections array
       const numSubsections = section.subsections.length
 
@@ -216,7 +266,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
         .populate('navbar')
         .populate('footer')
         .populate({
-          path: 'sections',
+          path: 'pages.sections',
           populate: {
             path: 'subsections',
             populate: {
@@ -242,7 +292,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
         .populate('navbar')
         .populate('footer')
         .populate({
-          path: 'sections',
+          path: 'pages.sections',
           populate: {
             path: 'subsections',
             populate: {
@@ -255,15 +305,15 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     }
 
     if (droppedComponent && droppedComponent.type === 'body') {
+      console.log("INSIDE BODY")
       // create a new component object from the droppedComponent data
       const newComponent = await Component.create(droppedComponent)
-
+      console.log("NEW" , newComponent)
       const updatedWebsite = await Website.findByIdAndUpdate(
         id,
         {
           $push: {
-            [`sections.${sectionIndex}.subsections.${subsectionIndex}.components`]:
-              newComponent._id,
+            [`pages.${menu}.sections.${sectionIndex}.subsections.${subsectionIndex}.components`]: newComponent._id, 
           },
         },
         { new: true }
@@ -271,7 +321,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
         .populate('navbar')
         .populate('footer')
         .populate({
-          path: 'sections',
+          path: 'pages.sections',
           populate: {
             path: 'subsections',
             populate: {
@@ -280,7 +330,10 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
             },
           },
         })
+        console.log(`updatedWebsite.pages[menu] | pages[${menu}].sections.${sectionIndex}.subsections.${subsectionIndex}.components` , updatedWebsite.pages[menu])
+        //Tentar Percervebrr porque o componente não está a entrar na tabela que das paginas do site
 
+        
       res.status(200).json(updatedWebsite)
     }
     if (componentToEdit && componentToEdit.data) {
@@ -298,7 +351,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
         .populate('navbar')
         .populate('footer')
         .populate({
-          path: 'sections',
+          path: 'pages.sections',
           populate: {
             path: 'subsections',
             populate: {
@@ -336,7 +389,7 @@ router.put(
           .populate('navbar')
           .populate('footer')
           .populate({
-            path: 'sections',
+            path: 'pages.sections',
             populate: {
               path: 'subsections',
               populate: {
@@ -374,7 +427,7 @@ router.put(
           .populate('navbar')
           .populate('footer')
           .populate({
-            path: 'sections',
+            path: 'pages.sections',
             populate: {
               path: 'subsections',
               populate: {
@@ -404,7 +457,7 @@ router.put(
         .populate('navbar')
         .populate('footer')
         .populate({
-          path: 'sections',
+          path: 'pages.sections',
           populate: {
             path: 'subsections',
             populate: {
@@ -447,7 +500,7 @@ router.put(
   '/websites/:id/components/edit/',
   isAuthenticated,
   async (req, res, next) => {
-    const { componentData } = req.body
+    const { componentData  } = req.body
     const { id } = req.params
 
     try {
@@ -476,7 +529,7 @@ router.put(
         .populate('navbar')
         .populate('footer')
         .populate({
-          path: 'sections',
+          path: 'pages.sections',
           populate: {
             path: 'subsections',
             populate: {

@@ -52,16 +52,22 @@ const websiteSchema = new Schema(
     navbar: {
       type: [{ type: Schema.Types.ObjectId, ref: 'Component' }],
     },
-    sections: {
-      type: [Section.schema],
-      required: true,
-      validate: {
-        validator: function (sections) {
-          return sections.length >= 2
-        },
-        message: 'A website must have at least 2 sections',
+    pages: [{
+      menu: {
+        type: String,
+        required: true
       },
-    },
+      sections: {
+        type: [Section.schema],
+        required: true,
+        validate: {
+          validator: function (sections) {
+            return sections.length >= 2
+          },
+          message: `A page must have at least 2 sections`,
+        },
+      }
+    }],
     footer: {
       type: [{ type: Schema.Types.ObjectId, ref: 'Component' }],
     },

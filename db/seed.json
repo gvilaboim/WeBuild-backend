@@ -14,20 +14,14 @@
         "text": "About"
       },
       {
-        "text": "Jobs"
-      },
-      {
         "text": "Contacts"
-      },
-      {
-        "text": "Products"
       }
     ],
     "style": {
       "display": "flex",
       "alignItems": "center",
       "justifyContent": "space-around",
-      "width": "100",
+      "width": "50",
       "height": "600",
       "padding": {
         "top": 0,
@@ -36,7 +30,7 @@
         "left": 0
       },
       "backgroundColor": "#a84d4d",
-      "backgroundImage": "/landing.jpg"
+      "backgroundImage": ""
     }
   },
   {
