@@ -8,6 +8,7 @@
 - add website background - 
 - add Section (reorder) - ✅
 - Navbar for free Plans
+- delete website
 - sort recently updated in backend
 
 # Dashboard
