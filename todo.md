@@ -11,6 +11,11 @@
 - delete website
 - sort recently updated in backend
 
+
+- footer edit - GF
+- sidebar while canvas
+- public view - GV
+
 # Dashboard
 
 ## Cloudinary
