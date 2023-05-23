@@ -375,18 +375,41 @@ router.put(
   '/websites/:id/delete-subsection',
   isAuthenticated,
   async (req, res, next) => {
-    const { subsectionId, sectionId } = req.body
-    const { id } = req.params
+    const { subsectionId, sectionId, menu } = req.body;
+    const { id } = req.params;
 
     try {
       // Delete a subsection
+
+      const website = await Website.findById(id)
+        .populate('navbar')
+        .populate('footer')
+        .populate({
+          path: 'pages.sections',
+          populate: {
+            path: 'subsections',
+            populate: {
+              path: 'components',
+              model: 'Component',
+            },
+          },
+        });
+
+      const sectionIndex = website.pages[menu].sections.findIndex(
+        (section) => section._id.toString() === sectionId
+      );
+
       if (subsectionId) {
+        console.log("sectionIndex " , sectionIndex)
+        console.log("subsectionId " , subsectionId)
         const updatedWebsite = await Website.findByIdAndUpdate(
           id,
           {
-            $pull: { 'sections.$[section].subsections': { _id: subsectionId } },
+            $pull: {
+              [`pages.${menu}.sections.${sectionIndex}.subsections`]: { _id: subsectionId },
+            },
           },
-          { new: true, arrayFilters: [{ 'section._id': sectionId }] }
+          { new: true}
         )
           .populate('navbar')
           .populate('footer')
@@ -396,16 +419,16 @@ router.put(
               path: 'subsections',
               populate: {
                 path: 'components',
-                model: 'Component',
+                model:'Component',
               },
             },
-          })
+          });
 
-        res.status(200).json(updatedWebsite)
+        res.status(200).json(updatedWebsite);
       }
     } catch (error) {
-      console.log(error)
-      res.status(500).send('Internal server error')
+      console.log(error);
+      res.status(500).send('Internal server error');
     }
   }
 )
@@ -413,8 +436,8 @@ router.put(
   '/websites/:id/delete-section',
   isAuthenticated,
   async (req, res, next) => {
-    const { sectionId } = req.body
-    const { id } = req.params
+    const { sectionId, menu } = req.body;
+    const { id } = req.params;
 
     try {
       // Delete a Section
@@ -422,7 +445,7 @@ router.put(
         const updatedWebsite = await Website.findByIdAndUpdate(
           id,
           {
-            $pull: { sections: { _id: sectionId } },
+            $pull: { [`pages.${menu}.sections`]: { _id: sectionId } },
           },
           { new: true }
         )
@@ -437,21 +460,21 @@ router.put(
                 model: 'Component',
               },
             },
-          })
+          });
 
-        res.status(200).json(updatedWebsite)
+        res.status(200).json(updatedWebsite);
       }
     } catch (error) {
-      console.log(error)
-      res.status(500).send('Internal server error')
+      console.log(error);
+      res.status(500).send('Internal server error');
     }
   }
-)
+);
 router.put(
   '/websites/:id/add-section',
   isAuthenticated,
   async (req, res, next) => {
-    const { sectionId } = req.body
+    const { data } = req.body
     const { id } = req.params
 
     try {
@@ -469,9 +492,16 @@ router.put(
           },
         })
 
+        //            [`pages.${menu}.sections.${sectionIndex}.subsections.${subsectionIndex}.components`]: newComponent._id, 
+
+
+
       // find the index of the section where the button was clicked
-      const sectionIndex = website.sections.findIndex(
-        (section) => section._id.toString() === sectionId
+      console.log("website =>" ,website)
+      console.log("menu;" , data.menu)
+      console.log("sectionId;" , data.sectionId)
+      const sectionIndex = website.pages[data.menu].sections.findIndex(
+        (section) => section._id.toString() === data.sectionId
       )
 
       // create a new Section object
@@ -479,10 +509,10 @@ router.put(
       const newSection = await Section.create({ subsections: newSubsection })
 
       // insert the new Section object after the clicked section
-      website.sections.splice(sectionIndex + 1, 0, newSection)
+      website.pages[data.menu].sections.splice(sectionIndex + 1, 0, newSection)
 
       // update the renderOrder property of the affected sections
-      website.sections.forEach((section, index) => {
+      website.pages[data.menu].sections.forEach((section, index) => {
         section.renderOrder = index
       })
 
