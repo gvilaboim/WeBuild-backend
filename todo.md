@@ -20,7 +20,8 @@
 # Stripe
 # Chat Support
 # AI Assistant for suggestions
-# Sell Templates/Hire Developments
+# Sell Templates/Hire Developers
+
 
 
 
