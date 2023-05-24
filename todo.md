@@ -13,8 +13,9 @@
 
 
 - footer edit - GF
-- sidebar while canvas
-- public view - GV
+- sidebar for canvas components - ✅
+- public view sidebar - ✅
+
 
 # Dashboard
 
