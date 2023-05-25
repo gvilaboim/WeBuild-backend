@@ -161,6 +161,19 @@ router.put('/websites/publish/:id', isAuthenticated, async (req, res, next) => {
 
   try {
     const website = await Website.findById(id)
+      .populate({ path: 'user', populate: { path: 'plan' } })
+      .populate('navbar')
+      .populate('footer')
+      .populate({
+        path: 'pages.sections',
+        populate: {
+          path: 'subsections',
+          populate: {
+            path: 'components',
+            model: 'Component',
+          },
+        },
+      })
     website.isPublished = !website.isPublished
     website.save()
 
