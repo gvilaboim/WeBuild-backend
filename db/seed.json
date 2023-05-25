@@ -595,28 +595,23 @@
     "type": "body",
     "name": "imageRight",
     "category": "imageRight",
-    "items": [
+    "items": [ 
       {
-        "content": [
-          {
-            "cards": [
-              {
                 "title": {
-                  "text": "First featurette heading."
+                  "text": "First featurette heading.",
+                   "color" :"#fff" 
                 },
                 "description": {
-                  "text": "Some great placeholder content for the first featurette here. Imagine some exciting prose here."
+                  "text": "Some great placeholder content for the first featurette here. Imagine some exciting prose here.",
+                  "color" :"#fff" 
                 },
                 "image": {
                   "src": "https://via.placeholder.com/500x500",
                   "alt": "Placeholder: 500x500"
                 }
-              }
-            ]
-          }
-        ]
-      }
-    ],
+             
+         
+      }],
     "style": {
       "display": "",
       "alignItems": "",
@@ -643,28 +638,23 @@
     "type": "body",
     "name": "imageLeft",
     "category": "imageLeft",
-    "items": [
+    "items": [ 
       {
-        "content": [
-          {
-            "cards": [
-              {
                 "title": {
-                  "text": "First featurette heading."
+                  "text": "First featurette heading.",
+                   "color" :"#fff" 
                 },
                 "description": {
-                  "text": "Some great placeholder content for the first featurette here. Imagine some exciting prose here."
+                  "text": "Some great placeholder content for the first featurette here. Imagine some exciting prose here.",
+                  "color" :"#fff" 
                 },
                 "image": {
                   "src": "https://via.placeholder.com/500x500",
                   "alt": "Placeholder: 500x500"
                 }
-              }
-            ]
-          }
-        ]
-      }
-    ],
+             
+         
+      }],
     "style": {
       "display": "",
       "alignItems": "",
