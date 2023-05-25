@@ -228,6 +228,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     },
   } = req.body
 
+  
   console.log('menu BACKEND m ', menu)
 
   const { id } = req.params
@@ -566,6 +567,7 @@ router.put(
     const { componentData } = req.body
     const { id } = req.params
 
+    console.log("AQUI CABRAO")
     try {
       let updatedComponent
 
