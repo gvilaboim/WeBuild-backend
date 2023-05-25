@@ -167,7 +167,7 @@ router.put('/websites/publish/:id', isAuthenticated, async (req, res, next) => {
   }
 })
 
-router.get('/websites/:id', isAuthenticated, async (req, res, next) => {
+router.get('/websites/:id', async (req, res, next) => {
   const { id } = req.params
 console.log("here")
   if (id) {
@@ -552,6 +552,7 @@ router.put(
           componentData._id,
           {
             style: componentData.style,
+            items: componentData.items,
           },
           { new: true }
         )
@@ -673,7 +674,7 @@ router.put('/settings/:id', isAuthenticated, async (req, res) => {
     })
 })
 
-router.put('/dashboard/statistics', isAuthenticated, async (req, res, next) => {
+router.put('/dashboard/statistics', async (req, res, next) => {
   const { StatisticsObject } = req.body
   const { county, contry, country_code } = StatisticsObject.location.address
   try {
