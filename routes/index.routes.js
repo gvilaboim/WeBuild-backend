@@ -38,7 +38,7 @@ router.post('/websites/create', isAuthenticated, async (req, res, next) => {
     const user = new mongoose.Types.ObjectId(req.payload._id)
 
     // by default 3 empty sections are created
-    const sections = { home : [], about : [] , contacts : [] }
+    const sections = { home: [], about: [], contacts: [] }
     for (let i = 0; i < 3; i++) {
       const section = await Section.create({
         renderOrder: i,
@@ -77,22 +77,22 @@ router.post('/websites/create', isAuthenticated, async (req, res, next) => {
     const pages = [
       {
         menu: 'Home',
-        sections: sections.home
+        sections: sections.home,
       },
       {
         menu: 'About',
-        sections:   sections.about
+        sections: sections.about,
       },
       {
         menu: 'Contacts',
-        sections: sections.contacts
-      }
+        sections: sections.contacts,
+      },
     ]
 
     const newWebsite = await Website.create({ user, name, category, pages })
 
     console.log(newWebsite.pages)
-    
+
     res.status(201).json(newWebsite)
   } catch (error) {
     console.error(error)
@@ -101,15 +101,20 @@ router.post('/websites/create', isAuthenticated, async (req, res, next) => {
 })
 
 router.get('/websites/community', isAuthenticated, async (req, res, next) => {
-  const foundWebsites = await Website.find({ isPublished: true }).populate(
-    'user'
-  )
+  const foundWebsites = await Website.find({ isPublished: true }).populate({
+    path: 'user',
+    populate: { path: 'plan' },
+  })
+
   res.status(200).json(foundWebsites)
 })
 
 router.get('/websites/user/:id', isAuthenticated, async (req, res, next) => {
   const { id } = req.params
-  const foundWebsites = await Website.find({ user: id }).populate('user')
+  const foundWebsites = await Website.find({ user: id }).populate({
+    path: 'user',
+    populate: { path: 'plan' },
+  })
   res.status(200).json(foundWebsites)
 })
 
@@ -125,6 +130,7 @@ router.get('/websites/public/:username/:sitename', async (req, res, next) => {
         user: foundUser._id,
         name: sitename,
       })
+        .populate({ path: 'user', populate: { path: 'plan' } })
         .populate('navbar')
         .populate('footer')
         .populate({
@@ -151,28 +157,27 @@ router.get('/websites/public/:username/:sitename', async (req, res, next) => {
 // Make the website public
 router.put('/websites/publish/:id', isAuthenticated, async (req, res, next) => {
   const { id } = req.params
+  console.log(id)
 
   try {
-    const website = await Website.findByIdAndUpdate(
-      id,
-      {
-        $set: { isPublished: true },
-      },
-      { new: true }
-    )
+    const website = await Website.findById(id)
+    website.isPublished = !website.isPublished
+    website.save()
 
     res.status(200).json(website)
   } catch (error) {
+    console.log(error)
+
     res.status(500).json(error)
   }
 })
 
 router.get('/websites/:id', async (req, res, next) => {
   const { id } = req.params
-console.log("here")
+  console.log('here')
   if (id) {
     Website.findById(id)
-      .populate('user')
+      .populate({ path: 'user', populate: { path: 'plan' } })
       .populate('navbar')
       .populate('footer')
       .populate({
@@ -185,7 +190,7 @@ console.log("here")
           },
         },
       })
-      
+
       .then((foundWebsite) => {
         res.status(200).json(foundWebsite)
       })
@@ -196,10 +201,9 @@ console.log("here")
 })
 
 router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
-
-//Agora terá que vir para aqui uma sections dentro da page que tenha um nome no menu
-// menu ="HOME"
-//Section = secti on;
+  //Agora terá que vir para aqui uma sections dentro da page que tenha um nome no menu
+  // menu ="HOME"
+  //Section = secti on;
   const {
     siteData: {
       menu,
@@ -211,8 +215,8 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     },
   } = req.body
 
-  console.log("menu BACKEND m ", menu)
-  
+  console.log('menu BACKEND m ', menu)
+
   const { id } = req.params
 
   try {
@@ -220,6 +224,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     if (subsectionsIncrease && !droppedComponent) {
       //find the website to update
       const website = await Website.findById(id)
+        .populate({ path: 'user', populate: { path: 'plan' } })
         .populate('footer')
         .populate('navbar')
         .populate({
@@ -265,6 +270,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
         },
         { new: true }
       )
+        .populate({ path: 'user', populate: { path: 'plan' } })
         .populate('navbar')
         .populate('footer')
         .populate({
@@ -291,6 +297,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
         },
         { new: true }
       )
+        .populate({ path: 'user', populate: { path: 'plan' } })
         .populate('navbar')
         .populate('footer')
         .populate({
@@ -307,19 +314,21 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     }
 
     if (droppedComponent && droppedComponent.type === 'body') {
-      console.log("INSIDE BODY")
+      console.log('INSIDE BODY')
       // create a new component object from the droppedComponent data
       const newComponent = await Component.create(droppedComponent)
-      console.log("NEW" , newComponent)
+      console.log('NEW', newComponent)
       const updatedWebsite = await Website.findByIdAndUpdate(
         id,
         {
           $push: {
-            [`pages.${menu}.sections.${sectionIndex}.subsections.${subsectionIndex}.components`]: newComponent._id, 
+            [`pages.${menu}.sections.${sectionIndex}.subsections.${subsectionIndex}.components`]:
+              newComponent._id,
           },
         },
         { new: true }
       )
+        .populate({ path: 'user', populate: { path: 'plan' } })
         .populate('navbar')
         .populate('footer')
         .populate({
@@ -332,10 +341,12 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
             },
           },
         })
-        console.log(`updatedWebsite.pages[menu] | pages[${menu}].sections.${sectionIndex}.subsections.${subsectionIndex}.components` , updatedWebsite.pages[menu])
-        //Tentar Percervebrr porque o componente não está a entrar na tabela que das paginas do site
+      console.log(
+        `updatedWebsite.pages[menu] | pages[${menu}].sections.${sectionIndex}.subsections.${subsectionIndex}.components`,
+        updatedWebsite.pages[menu]
+      )
+      //Tentar Percervebrr porque o componente não está a entrar na tabela que das paginas do site
 
-        
       res.status(200).json(updatedWebsite)
     }
     if (componentToEdit && componentToEdit.data) {
@@ -350,6 +361,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
       )
 
       const updatedWebsite = await Website.findById(id)
+        .populate({ path: 'user', populate: { path: 'plan' } })
         .populate('navbar')
         .populate('footer')
         .populate({
@@ -375,110 +387,14 @@ router.put(
   '/websites/:id/delete-subsection',
   isAuthenticated,
   async (req, res, next) => {
-    const { subsectionId, sectionId, menu } = req.body;
-    const { id } = req.params;
+    const { subsectionId, sectionId, menu } = req.body
+    const { id } = req.params
 
     try {
       // Delete a subsection
 
       const website = await Website.findById(id)
-        .populate('navbar')
-        .populate('footer')
-        .populate({
-          path: 'pages.sections',
-          populate: {
-            path: 'subsections',
-            populate: {
-              path: 'components',
-              model: 'Component',
-            },
-          },
-        });
-
-      const sectionIndex = website.pages[menu].sections.findIndex(
-        (section) => section._id.toString() === sectionId
-      );
-
-      if (subsectionId) {
-        console.log("sectionIndex " , sectionIndex)
-        console.log("subsectionId " , subsectionId)
-        const updatedWebsite = await Website.findByIdAndUpdate(
-          id,
-          {
-            $pull: {
-              [`pages.${menu}.sections.${sectionIndex}.subsections`]: { _id: subsectionId },
-            },
-          },
-          { new: true}
-        )
-          .populate('navbar')
-          .populate('footer')
-          .populate({
-            path: 'pages.sections',
-            populate: {
-              path: 'subsections',
-              populate: {
-                path: 'components',
-                model:'Component',
-              },
-            },
-          });
-
-        res.status(200).json(updatedWebsite);
-      }
-    } catch (error) {
-      console.log(error);
-      res.status(500).send('Internal server error');
-    }
-  }
-)
-router.put(
-  '/websites/:id/delete-section',
-  isAuthenticated,
-  async (req, res, next) => {
-    const { sectionId, menu } = req.body;
-    const { id } = req.params;
-
-    try {
-      // Delete a Section
-      if (sectionId) {
-        const updatedWebsite = await Website.findByIdAndUpdate(
-          id,
-          {
-            $pull: { [`pages.${menu}.sections`]: { _id: sectionId } },
-          },
-          { new: true }
-        )
-          .populate('navbar')
-          .populate('footer')
-          .populate({
-            path: 'pages.sections',
-            populate: {
-              path: 'subsections',
-              populate: {
-                path: 'components',
-                model: 'Component',
-              },
-            },
-          });
-
-        res.status(200).json(updatedWebsite);
-      }
-    } catch (error) {
-      console.log(error);
-      res.status(500).send('Internal server error');
-    }
-  }
-);
-router.put(
-  '/websites/:id/add-section',
-  isAuthenticated,
-  async (req, res, next) => {
-    const { data } = req.body
-    const { id } = req.params
-
-    try {
-      const website = await Website.findByIdAndUpdate(id)
+        .populate({ path: 'user', populate: { path: 'plan' } })
         .populate('navbar')
         .populate('footer')
         .populate({
@@ -492,14 +408,116 @@ router.put(
           },
         })
 
-        //            [`pages.${menu}.sections.${sectionIndex}.subsections.${subsectionIndex}.components`]: newComponent._id, 
+      const sectionIndex = website.pages[menu].sections.findIndex(
+        (section) => section._id.toString() === sectionId
+      )
 
+      if (subsectionId) {
+        console.log('sectionIndex ', sectionIndex)
+        console.log('subsectionId ', subsectionId)
+        const updatedWebsite = await Website.findByIdAndUpdate(
+          id,
+          {
+            $pull: {
+              [`pages.${menu}.sections.${sectionIndex}.subsections`]: {
+                _id: subsectionId,
+              },
+            },
+          },
+          { new: true }
+        )
+          .populate({ path: 'user', populate: { path: 'plan' } })
+          .populate('navbar')
+          .populate('footer')
+          .populate({
+            path: 'pages.sections',
+            populate: {
+              path: 'subsections',
+              populate: {
+                path: 'components',
+                model: 'Component',
+              },
+            },
+          })
 
+        res.status(200).json(updatedWebsite)
+      }
+    } catch (error) {
+      console.log(error)
+      res.status(500).send('Internal server error')
+    }
+  }
+)
+router.put(
+  '/websites/:id/delete-section',
+  isAuthenticated,
+  async (req, res, next) => {
+    const { sectionId, menu } = req.body
+    const { id } = req.params
+
+    try {
+      // Delete a Section
+      if (sectionId) {
+        const updatedWebsite = await Website.findByIdAndUpdate(
+          id,
+          {
+            $pull: { [`pages.${menu}.sections`]: { _id: sectionId } },
+          },
+          { new: true }
+        )
+          .populate({ path: 'user', populate: { path: 'plan' } })
+
+          .populate('navbar')
+          .populate('footer')
+          .populate({
+            path: 'pages.sections',
+            populate: {
+              path: 'subsections',
+              populate: {
+                path: 'components',
+                model: 'Component',
+              },
+            },
+          })
+
+        res.status(200).json(updatedWebsite)
+      }
+    } catch (error) {
+      console.log(error)
+      res.status(500).send('Internal server error')
+    }
+  }
+)
+router.put(
+  '/websites/:id/add-section',
+  isAuthenticated,
+  async (req, res, next) => {
+    const { data } = req.body
+    const { id } = req.params
+
+    try {
+      const website = await Website.findByIdAndUpdate(id)
+        .populate({ path: 'user', populate: { path: 'plan' } })
+
+        .populate('navbar')
+        .populate('footer')
+        .populate({
+          path: 'pages.sections',
+          populate: {
+            path: 'subsections',
+            populate: {
+              path: 'components',
+              model: 'Component',
+            },
+          },
+        })
+
+      //            [`pages.${menu}.sections.${sectionIndex}.subsections.${subsectionIndex}.components`]: newComponent._id,
 
       // find the index of the section where the button was clicked
-      console.log("website =>" ,website)
-      console.log("menu;" , data.menu)
-      console.log("sectionId;" , data.sectionId)
+      console.log('website =>', website)
+      console.log('menu;', data.menu)
+      console.log('sectionId;', data.sectionId)
       const sectionIndex = website.pages[data.menu].sections.findIndex(
         (section) => section._id.toString() === data.sectionId
       )
@@ -532,7 +550,7 @@ router.put(
   '/websites/:id/components/edit/',
   isAuthenticated,
   async (req, res, next) => {
-    const { componentData  } = req.body
+    const { componentData } = req.body
     const { id } = req.params
 
     try {
@@ -559,6 +577,8 @@ router.put(
       }
 
       const updatedWebsite = await Website.findById(id)
+        .populate({ path: 'user', populate: { path: 'plan' } })
+
         .populate('navbar')
         .populate('footer')
         .populate({
