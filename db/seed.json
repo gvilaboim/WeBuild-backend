@@ -105,51 +105,7 @@
       "borderRadius": "5px"
     }
   },
-  {
-    "type": "body",
-    "name": "main-content",
-    "bgColor": {
-      "r": 240,
-      "g": 240,
-      "b": 240,
-      "a": 1
-    }
-  },
-  {
-    "type": "body",
-    "htmlTag": "img",
-    "name": "image",
-    "category": "content",
-    "src": "/books.jpg",
-    "alt": "Example Image",
-    "style": {
-      "width": 500,
-      "height": 300,
-      "borderRadius": "10px"
-    }
-  },
-  {
-    "type": "body",
-    "htmlTag": "p",
-    "name": "paragraph",
-    "category": "content",
-    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "style": {
-      "color": "#000",
-      "fontSize": "1.2em",
-      "fontWeight": "normal"
-    }
-  },
-  {
-    "type": "body",
-    "name": "testimonials",
-    "bgColor": {
-      "r": 210,
-      "g": 210,
-      "b": 210,
-      "a": 1
-    }
-  },
+
   {
     "type": "body",
     "name": "pricing",
