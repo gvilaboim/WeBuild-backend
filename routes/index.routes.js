@@ -622,9 +622,9 @@ router.get('/plans/all/', isAuthenticated, async (req, res, next) => {
 
 router.get('/plans/:id', isAuthenticated, async (req, res, next) => {
   const { id } = req.params
-
-  const foundPlans = await Plans.findById(id)
-  res.status(200).json(foundPlans)
+  
+  const foundPlan = await Plans.findById(id)
+  res.status(200).json(foundPlan)
 })
 
 router.post('/create-checkout-session', isAuthenticated, async (req, res) => {

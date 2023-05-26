@@ -17,7 +17,7 @@ const plansSchema = new Schema(
         type : Number,
     },
     features: {
-      type: Object
+      type: [Object]
     },
   },
   {
