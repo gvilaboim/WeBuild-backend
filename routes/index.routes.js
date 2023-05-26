@@ -225,8 +225,6 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     },
   } = req.body
 
-  console.log('menu BACKEND m ', menu)
-
   const { id } = req.params
 
   try {
@@ -595,29 +593,8 @@ router.put(
     const { componentData } = req.body
     const { id } = req.params
 
-    console.log(componentData.style)
     try {
-      let updatedComponent
-
-      if (componentData.name === 'navbar') {
-        updatedComponent = await Component.findByIdAndUpdate(
-          componentData._id,
-          {
-            style: componentData.style,
-            navLinks: componentData.navLinks,
-          },
-          { new: true }
-        )
-      } else {
-        updatedComponent = await Component.findByIdAndUpdate(
-          componentData._id,
-          {
-            style: componentData.style,
-            items: componentData.items,
-          },
-          { new: true }
-        )
-      }
+      const updatedComponent = await Component.findByIdAndUpdate(componentData._id, componentData, { new: true })
 
       const updatedWebsite = await Website.findById(id)
         .populate({ path: 'user', populate: { path: 'plan' } })
