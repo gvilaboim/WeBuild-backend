@@ -20,7 +20,7 @@
 - Hire a Professional page
 
 # SideMenu
-
+- collapse
 - Links go nowhere - should scroll page
 - user settings
 
@@ -28,13 +28,12 @@
 
 - add website background - ✅
 - components color - ✅
-- text edit not working
+- text edit not working -  ✅
 
 # public
 
 - navbar brand site link - ✅
-- webuild banner sticky
-- empty sections
+- webuild banner sticky - ✅
 
 # Stripe
 - Free Plan Downgrade - unable to go back to Free
