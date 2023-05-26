@@ -322,10 +322,8 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     }
 
     if (droppedComponent && droppedComponent.type === 'body') {
-      console.log('INSIDE BODY')
       // create a new component object from the droppedComponent data
       const newComponent = await Component.create(droppedComponent)
-      console.log('NEW', newComponent)
       const updatedWebsite = await Website.findByIdAndUpdate(
         id,
         {
@@ -349,12 +347,11 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
             },
           },
         })
-      console.log(
-        `updatedWebsite.pages[menu] | pages[${menu}].sections.${sectionIndex}.subsections.${subsectionIndex}.components`,
-        updatedWebsite.pages[menu]
-      )
-      //Tentar Percervebrr porque o componente não está a entrar na tabela que das paginas do site
 
+      console.log(
+        updatedWebsite.pages[0].sections[0].subsections[0].components[0]
+          .items[0].content.cards
+      )
       res.status(200).json(updatedWebsite)
     }
     if (componentToEdit && componentToEdit.data) {
@@ -392,6 +389,19 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     res.status(500).send('Internal server error')
   }
 })
+
+router.delete('/websites/:id', isAuthenticated, async (req, res, next) => {
+  const { id } = req.params
+
+  try {
+    await Website.findByIdAndRemove(id)
+
+    res.status(200).json({ deleted: true })
+  } catch (error) {
+    res.status(500).json(error)
+  }
+})
+
 
 router.put('/websites/:id/bg', isAuthenticated, async (req, res, next) => {
   const { id } = req.params
@@ -596,7 +606,11 @@ router.put(
     const { id } = req.params
 
     try {
-      const updatedComponent = await Component.findByIdAndUpdate(componentData._id, componentData, { new: true })
+      const updatedComponent = await Component.findByIdAndUpdate(
+        componentData._id,
+        componentData,
+        { new: true }
+      )
 
       const updatedWebsite = await Website.findById(id)
         .populate({ path: 'user', populate: { path: 'plan' } })
@@ -683,8 +697,8 @@ router.get(
 router.post('/update-user-plan', isAuthenticated, async (req, res) => {
   const { userId, planId } = req.body
 
-  console.log("userId", userId)
-  console.log("planId", planId)
+  console.log('userId', userId)
+  console.log('planId', planId)
 
   try {
     const user = await User.findById(userId)
