@@ -28,6 +28,7 @@
 
 - add website background - ✅
 - components color - ✅
+- text edit not working
 
 # public
 
