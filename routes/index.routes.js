@@ -214,9 +214,6 @@ router.get('/websites/:id', async (req, res, next) => {
 })
 
 router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
-  //Agora terá que vir para aqui uma sections dentro da page que tenha um nome no menu
-  // menu ="HOME"
-  //Section = secti on;
   const {
     siteData: {
       menu,
@@ -228,7 +225,6 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     },
   } = req.body
 
-  
   console.log('menu BACKEND m ', menu)
 
   const { id } = req.params
@@ -395,6 +391,38 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
     console.log(error)
     res.status(500).send('Internal server error')
   }
+})
+
+router.put('/websites/:id/bg', isAuthenticated, async (req, res, next) => {
+  const { id } = req.params
+  const { imgSrc } = req.body
+
+  try {
+    const updatedWebsite = await Website.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          background: imgSrc,
+        },
+      },
+      { new: true }
+    )
+      .populate({ path: 'user', populate: { path: 'plan' } })
+      .populate('navbar')
+      .populate('footer')
+      .populate({
+        path: 'pages.sections',
+        populate: {
+          path: 'subsections',
+          populate: {
+            path: 'components',
+            model: 'Component',
+          },
+        },
+      })
+
+    res.status(200).json(updatedWebsite)
+  } catch (error) {}
 })
 
 router.put(
@@ -567,7 +595,7 @@ router.put(
     const { componentData } = req.body
     const { id } = req.params
 
-    console.log("AQUI CABRAO")
+    console.log(componentData.style)
     try {
       let updatedComponent
 
@@ -593,7 +621,6 @@ router.put(
 
       const updatedWebsite = await Website.findById(id)
         .populate({ path: 'user', populate: { path: 'plan' } })
-
         .populate('navbar')
         .populate('footer')
         .populate({
@@ -622,7 +649,7 @@ router.get('/plans/all/', isAuthenticated, async (req, res, next) => {
 
 router.get('/plans/:id', isAuthenticated, async (req, res, next) => {
   const { id } = req.params
-  
+
   const foundPlan = await Plans.findById(id)
   res.status(200).json(foundPlan)
 })

@@ -18,7 +18,6 @@ const visitorSchema = new Schema(
     },
     country_code: {
       type: String,
-
     },
     views: {
       type: Number,
@@ -52,25 +51,28 @@ const websiteSchema = new Schema(
     navbar: {
       type: [{ type: Schema.Types.ObjectId, ref: 'Component' }],
     },
-    pages: [{
-      menu: {
-        type: String,
-        required: true
-      },
-      sections: {
-        type: [Section.schema],
-        required: true,
-        validate: {
-          validator: function (sections) {
-            return sections.length >= 2
-          },
-          message: `A page must have at least 2 sections`,
+    pages: [
+      {
+        menu: {
+          type: String,
+          required: true,
         },
-      }
-    }],
+        sections: {
+          type: [Section.schema],
+          required: true,
+          validate: {
+            validator: function (sections) {
+              return sections.length >= 2
+            },
+            message: `A page must have at least 2 sections`,
+          },
+        },
+      },
+    ],
     footer: {
       type: [{ type: Schema.Types.ObjectId, ref: 'Component' }],
     },
+    background: { type: String, default: '' },
     isPublished: { type: Boolean, default: false },
   },
   {
