@@ -702,8 +702,12 @@ router.get(
 )
 
 router.post('/update-user-plan', isAuthenticated, async (req, res) => {
+  const { userId, planId } = req.body
+
+  console.log("userId", userId)
+  console.log("planId", planId)
+
   try {
-    const { userId, planId } = req.body
     const user = await User.findById(userId)
     user.plan = planId
     await user.save()
