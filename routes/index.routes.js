@@ -358,6 +358,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
       res.status(200).json(updatedWebsite)
     }
     if (componentToEdit && componentToEdit.data) {
+      console.log(componentToEdit.data.title)
       const updatedComponent = await Component.findByIdAndUpdate(
         componentToEdit.id,
         {
@@ -367,6 +368,7 @@ router.put('/websites/:id', isAuthenticated, async (req, res, next) => {
         },
         { new: true }
       )
+      console.log(updatedComponent.title)
 
       const updatedWebsite = await Website.findById(id)
         .populate({ path: 'user', populate: { path: 'plan' } })

@@ -36,7 +36,7 @@
 - webuild banner sticky - ✅
 
 # Stripe
-- Free Plan Downgrade - unable to go back to Free
+- Free Plan Downgrade - unable to go back to Free - ✅
 
 ### Optional
 
