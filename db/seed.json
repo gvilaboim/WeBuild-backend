@@ -584,8 +584,8 @@
     "name": "imageRight",
     "category": "imageRight",
     "items": [
-      { "content":[
-      {
+      { "content":{ 
+ 
         "title": {
           "text": "First featurette heading.",
           "color": "#fff"
@@ -598,7 +598,7 @@
           "src": "https://via.placeholder.com/500x500",
           "alt": "Placeholder: 500x500"
         }
-      } ]}
+        }}
     ],
     "style": {
       "display": "",
@@ -628,7 +628,7 @@
     "category": "imageLeft",
     "items": [
       {
-        "content": [
+        "content": 
           {
             "title": {
               "text": "First featurette heading.",
@@ -643,7 +643,7 @@
               "alt": "Placeholder: 500x500"
             }
           }
-        ]
+        
       }
     ],
     "style": {

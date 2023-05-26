@@ -21,6 +21,7 @@ const userSchema = new Schema(
     plan: {
       type: Schema.Types.ObjectId,
       ref: 'Plans',
+      default: "6456496a5e8a0c484878440e"
     },
     profilePic: { type: String, default: '/profile-pic.png', required: true },
   },
