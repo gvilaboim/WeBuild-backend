@@ -30,7 +30,8 @@
         "left": 5
       },
       "backgroundColor": "#a84d4d",
-      "backgroundImage": ""
+      "backgroundImage": "",
+       "opacity": 0.5
     }
   },
   {
@@ -84,28 +85,11 @@
         "left": 0
       },
       "backgroundColor": "#a84d4d",
-      "backgroundImage": ""
+      "backgroundImage": "",
+      "opacity": 0.5
     }
   },
-  {
-    "type": "body",
-    "htmlTag": "button",
-    "name": "button",
-    "category": "content",
-    "text": "Click Me",
-    "style": {
-      "backgroundColor": "#008CBA",
-      "color": "#fff",
-      "padding": {
-        "top": 10,
-        "right": 20,
-        "bottom": 10,
-        "left": 20
-      },
-      "borderRadius": "5px"
-    }
-  },
-
+ 
   {
     "type": "body",
     "name": "pricing",
@@ -238,7 +222,8 @@
         "left": 0
       },
       "backgroundColor": "#a84d4d",
-      "backgroundImage": ""
+      "backgroundImage": "",
+      "opacity": 0.5
     }
   },
   {
@@ -362,7 +347,8 @@
         "left": 0
       },
       "backgroundColor": "#A84D4D",
-      "backgroundImage": ""
+      "backgroundImage": "",
+      "opacity": 0.5
     }
   },
   {
@@ -532,7 +518,8 @@
         "left": 0
       },
       "backgroundColor": "#A84D4D",
-      "backgroundImage": ""
+      "backgroundImage": "",
+      "opacity": 0.5
     }
   },
   {
@@ -569,7 +556,9 @@
         "left": 5
       },
       "backgroundColor": "#A84D4D",
-      "backgroundImage": ""
+      "backgroundImage": "",
+      "opacity": 0.5
+
     },
     "bgColor": {
       "r": 200,
@@ -612,7 +601,8 @@
         "left": 5
       },
       "backgroundColor": "#A84D4D",
-      "backgroundImage": ""
+      "backgroundImage": "",
+      "opacity": 0.5
     },
     "bgColor": {
       "r": 255,
