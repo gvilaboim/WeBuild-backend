@@ -15,9 +15,9 @@
 # Dashboard
 
 - sort recently updated in backend
-- delete website 
+- delete website ✅
 - search bar - community
-- Hire a Professional page
+- Hire a Professional page 
 
 # SideMenu
 - collapse
