@@ -1,5 +1,5 @@
-### - WeBuild
-## - Build and Host Your Own Websites - Server
+### WeBuild
+## Build and Host Your Own Websites - Server
 
 This is the server repository of a MERN (MongoDB, Express, React, Node) stack web application that lets you build and host simple websites. With this app, you can easily create your own website without any prior knowledge of web development.
 
@@ -11,15 +11,19 @@ The app uses the GeoLocation API to detect the location of who's visiting your p
 git clone https://github.com/gvilaboim/WeBuild-backend.git
 
 # Install dependencies:
+```
 cd your-server-project
 npm install
-
-# Create a .env file with the following content:
+```
+## Create a .env file with the following content:
+```
 MONGODB_URI=<your-mongodb-uri>
 STRIPE_SECRET_KEY=<your-stripe-secret-key>
-
-# Start the development server:
+```
+## Start the development server:
+```
 npm start
+```
 
 ## Usage
 The server should be running on http://localhost:5000.
