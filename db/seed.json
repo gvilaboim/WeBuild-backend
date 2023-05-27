@@ -29,7 +29,7 @@
         "bottom": 5,
         "left": 5
       },
-      "backgroundColor": "#a84d4d",
+      "backgroundColor": "",
       "backgroundImage": "",
        "opacity": 0.5
     }
@@ -84,7 +84,7 @@
         "bottom": 0,
         "left": 0
       },
-      "backgroundColor": "#a84d4d",
+      "backgroundColor": "",
       "backgroundImage": "",
       "opacity": 0.5
     }
@@ -435,7 +435,7 @@
         "bottom": 0,
         "left": 0
       },
-      "backgroundColor": "#A84D4D",
+      "backgroundColor": "",
       "backgroundImage": ""
     }
   },
@@ -517,7 +517,7 @@
         "bottom": 0,
         "left": 0
       },
-      "backgroundColor": "#A84D4D",
+      "backgroundColor": "",
       "backgroundImage": "",
       "opacity": 0.5
     }
@@ -555,7 +555,7 @@
         "bottom": 5,
         "left": 5
       },
-      "backgroundColor": "#A84D4D",
+      "backgroundColor": "",
       "backgroundImage": "",
       "opacity": 0.5
 
@@ -600,7 +600,7 @@
         "bottom": 5,
         "left": 5
       },
-      "backgroundColor": "#A84D4D",
+      "backgroundColor": "",
       "backgroundImage": "",
       "opacity": 0.5
     },
