@@ -15,7 +15,7 @@
 # Dashboard
 
 - sort recently updated in backend
-- delete website
+- delete website 
 - search bar - community
 - Hire a Professional page
 
@@ -29,6 +29,7 @@
 - add website background - ✅
 - components color - ✅
 - text edit not working -  ✅
+- remove background color - "No fill"
 
 # public
 
