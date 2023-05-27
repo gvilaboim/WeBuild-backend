@@ -583,24 +583,21 @@
     "name": "imageLeft",
     "category": "imageLeft",
     "items": [
-      {
-        "content": 
-          {
-            "title": {
-              "text": "First featurette heading.",
-              "color": "#fff"
-            },
-            "description": {
-              "text": "Some great placeholder content for the first featurette here. Imagine some exciting prose here.",
-              "color": "#fff"
-            },
-            "image": {
-              "src": "https://via.placeholder.com/500x500",
-              "alt": "Placeholder: 500x500"
-            }
-          }
-        
-      }
+      { "content":{ 
+ 
+        "title": {
+          "text": "First featurette heading.",
+          "color": "#fff"
+        },
+        "description": {
+          "text": "Some great placeholder content for the first featurette here. Imagine some exciting prose here.",
+          "color": "#fff"
+        },
+        "image": {
+          "src": "https://via.placeholder.com/500x500",
+          "alt": "Placeholder: 500x500"
+        }
+        }}
     ],
     "style": {
       "display": "",

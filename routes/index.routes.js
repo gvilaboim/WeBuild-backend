@@ -148,7 +148,7 @@ router.get('/websites/public/:username/:sitename', async (req, res, next) => {
       } else {
         res.status(500).json({ message: 'Not Found' })
       }
-    } catch (error) {}
+    } catch (error) { }
   } else {
     console.log('something goes wrong ')
   }
@@ -422,7 +422,7 @@ router.put('/websites/:id/bg', isAuthenticated, async (req, res, next) => {
       })
 
     res.status(200).json(updatedWebsite)
-  } catch (error) {}
+  } catch (error) { }
 })
 
 router.put(
@@ -724,17 +724,18 @@ router.put('/dashboard/statistics', async (req, res, next) => {
   const { county, contry, country_code } = StatisticsObject.location.address
   try {
     const website = await Website.findById(StatisticsObject._id)
-    const visitor = new Visitor({
-      website: website._id,
-      location: county,
-      contry: contry,
-      country_code: country_code,
-      views: StatisticsObject.views || 0,
-    })
+    if (website) {
+      const visitor = new Visitor({
+        website: website._id,
+        location: county,
+        contry: contry,
+        country_code: country_code,
+        views: StatisticsObject.views || 0,
+      })
 
-    website.visitors.push(visitor)
-    await website.save()
-
+      website.visitors.push(visitor)
+      await website.save()
+    }
     res.status(200).json({ status: 'success' })
   } catch (error) {
     console.error(error)
